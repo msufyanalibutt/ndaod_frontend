@@ -1,0 +1,104 @@
+[
+    {
+        "name": "AAVE",
+        "url": "https://app.aave.com",
+        "type": "Lending",
+        "image": "aave.svg"
+    },
+    {
+        "name": "Sushi",
+        "url": "https://app.sushi.com",
+        "type": "Trading",
+        "image": "sushi.svg"
+    },
+    {
+        "name": "Uniswap",
+        "url": "https://app.uniswap.org",
+        "type": "Trading",
+        "image": "uniswap.svg"
+    },
+    {
+        "name": "Instadapp",
+        "url": "https://defi.instadapp.io",
+        "type": "Interface",
+        "image": "instadapp.svg"
+    },
+    {
+        "name": "Balancer",
+        "url": "https://app.balancer.fi",
+        "type": "Trading",
+        "image": "balancer.svg"
+    },
+    {
+        "name": "Curve",
+        "url": "https://curve.fi",
+        "type": "Trading",
+        "image": "curve.svg"
+    },
+    {
+        "name": "Dodo",
+        "url": "https://app.dodoex.io",
+        "type": "Trading",
+        "image": "dodo.ico"
+    },
+    {
+        "name": "Beefy Finanace",
+        "url": "https://app.beefy.finance",
+        "type": "Asset Management",
+        "image": "beefy.png"
+    },
+    {
+        "name": "Kyber Network",
+        "url": "https://kyberswap.com",
+        "type": "Trading",
+        "image": "kyber-network.svg"
+    },
+    {
+        "name": "Olympus",
+        "url": "https://app.olympusdao.finance",
+        "type": "Assets",
+        "image": "olympus.png"
+    },
+    {
+        "name": "QuickSwap",
+        "url": "https://quickswap.exchange",
+        "type": "Trading",
+        "image": "quick.png"
+    },
+    {
+        "name": "Index",
+        "url": "https://app.indexcoop.com",
+        "type": "Trading",
+        "image": "index.svg"
+    },
+    {
+        "name": "Complifi",
+        "url": "https://v2.compli.fi",
+        "type": "Derivatives",
+        "image": "complifi.png"
+    },
+    {
+        "name": "Market",
+        "url": "https://polygon.market.xyz",
+        "type": "Trading",
+        "image": "market.jpeg"
+    },
+    {
+        "name": "Onx",
+        "url": "https://app.onx.finance",
+        "type": "Asset Management",
+        "image": "onx.ico"
+    },
+    {
+        "name": "WePiggy",
+        "url": "https://app.wepiggy.com",
+        "type": "Lending",
+        "image": "wepiggy.svg"
+    },
+    {
+        "name": "xToken",
+        "url": "https://app.xtokenterminal.io",
+        "type": "Asset Management",
+        "image": "xToken.ico"
+    }
+]

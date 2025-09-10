@@ -1,0 +1,16 @@
+[
+    {
+        "address": "0xc23218844b7EA0a9214294E377db54A2D93eD2eE",
+        "symbol": "GLD",
+        "logoURI": "/images/NoImageCoinLogo.svg",
+        "decimals": 18,
+        "name": "Gold"
+    },
+    {
+        "address": "0xF061459261AdA2fF0d9B75A760541301a6fDe92c",
+        "symbol": "USDC",
+        "logoURI": "/images/NoImageCoinLogo.svg",
+        "decimals": 18,
+        "name": "USD Coin"
+    }
+]

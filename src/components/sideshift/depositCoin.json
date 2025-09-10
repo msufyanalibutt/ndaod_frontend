@@ -1,0 +1,71 @@
+[
+    {
+        "coin": "ETH",
+        "networks": [
+            "optimism",
+            "ethereum"
+        ],
+        "mainnet": "ethereum",
+        "name": "Ethereum",
+        "hasMemo": false,
+        "fixedOnly": false,
+        "variableOnly": false,
+        "depositOffline": [
+            "arbitrum"
+        ],
+        "settleOffline": [
+            "arbitrum"
+        ]
+    },
+    {
+        "coin": "WETH",
+        "networks": [
+            "ethereum"
+        ],
+        "name": "Wrapped Ether",
+        "hasMemo": false,
+        "fixedOnly": false,
+        "variableOnly": false,
+        "depositOffline": false,
+        "settleOffline": false
+    },
+    {
+        "coin": "USDC",
+        "networks": [
+            "polygon",
+            "ethereum"
+        ],
+        "name": "USDC",
+        "hasMemo": false,
+        "fixedOnly": false,
+        "variableOnly": false,
+        "depositOffline": false,
+        "settleOffline": false
+    },
+    {
+        "coin": "OP",
+        "networks": [
+            "optimism"
+        ],
+        "name": "Optimism",
+        "hasMemo": false,
+        "fixedOnly": false,
+        "variableOnly": false,
+        "depositOffline": false,
+        "settleOffline": false
+    },
+    {
+        "coin": "MATIC",
+        "networks": [
+            "ethereum",
+            "polygon"
+        ],
+        "mainnet": "polygon",
+        "name": "Matic",
+        "hasMemo": false,
+        "fixedOnly": false,
+        "variableOnly": false,
+        "depositOffline": false,
+        "settleOffline": false
+    }
+]

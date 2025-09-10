@@ -1,0 +1,50 @@
+[
+    {
+        "Coin": "USDC",
+        "Network": "ETHEREUM",
+        "ChainId": "1",
+        "Address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    },
+    {
+        "Coin": "MATIC",
+        "Network": "ETHEREUM",
+        "ChainId": "1",
+        "Address": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0"
+    },
+    {
+        "Coin": "ETH",
+        "Network": "ETHEREUM",
+        "ChainId": "1",
+        "Address": "0x0000000000000000000000000000000000000000"
+    },
+    {
+        "Coin": "WETH",
+        "Network": "ETHEREUM",
+        "ChainId": "1",
+        "Address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    },
+    {
+        "Coin": "OP",
+        "Network": "OPTIMISM",
+        "ChainId": "10",
+        "Address": "0x4200000000000000000000000000000000000042"
+    },
+    {
+        "Coin": "ETH",
+        "Network": "OPTIMISM",
+        "ChainId": "10",
+        "Address": "0x0000000000000000000000000000000000000000"
+    },
+    {
+        "Coin": "USDC",
+        "Network": "POLYGON",
+        "ChainId": "137",
+        "Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
+    },
+    {
+        "Coin": "MATIC",
+        "Network": "POLYGON",
+        "ChainId": "137",
+        "Address": "0x0000000000000000000000000000000000000000"
+    }
+]

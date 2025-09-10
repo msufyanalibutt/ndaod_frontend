@@ -1,0 +1,237 @@
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.dao-bg-blue {
+    background-color: #8AB5FF;
+}
+
+.dao-primary-btn {
+    border: 1px solid #303037;
+    background: #0F0F1D;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dao-primary-btn:hover {
+    background-color: rgba(138, 181, 255, 0.12);
+}
+
+.outline-success {
+    border: 1px solid palegreen;
+    color: palegreen;
+    font-size: 12px;
+    background: none;
+    text-decoration: none;
+}
+
+.outline-success-hover {
+    background: none;
+}
+
+.outline-success-hover:hover {
+    background-color: #a8efc11f;
+}
+
+.outline-danger {
+    border: 1px solid var(--bs-red);
+    color: var(--bs-red);
+    font-size: 12px;
+    background: none;
+    text-decoration: none;
+}
+
+.dao-warning-btn {
+    border: 1px solid #b99117;
+    background: none;
+    color: #b99117;
+    font-size: 12px;
+}
+
+.dao-info-btn {
+    border: 1px solid #b99117;
+    background: none;
+    color: #b99117;
+    font-size: 12px;
+}
+
+.table tr td,
+.table tr th {
+    color: #ffffffeb;
+    border-color: #0F0F1D;
+}
+
+.form-check-input {
+    cursor: pointer;
+}
+
+.icon {
+    margin-right: 5px;
+}
+
+.popover {
+    background-color: #303037;
+    margin: 10px !important;
+}
+
+a:hover {
+    color: inherit;
+}
+
+
+.notification-box {
+    display: block;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+.notification-icon {
+    cursor: pointer;
+    font-size: 100%;
+}
+
+.copy {
+    cursor: pointer;
+    transition: all 0.5s;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.copy:hover {
+    background-color: #303037;
+}
+
+a.text-white {
+    text-decoration: none;
+}
+
+a.text-white:hover {
+    text-decoration: underline;
+}
+
+.ecosystem {
+    outline: 1px solid #303037;
+    border-radius: 5px;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.ecosystem:hover {
+    outline: 1px solid #2E7BFF;
+    box-shadow: 1px 1px 10px 1px #2E7BFF;
+}
+
+.selectedecosystem {
+    outline: 1px solid #2E7BFF;
+    box-shadow: 1px 1px 10px 1px #2E7BFF;
+}
+
+.formControl:disabled {
+    background: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.token-item {
+    cursor: pointer;
+}
+
+.token-item:hover {
+    background-color: #0D0D15;
+}
+
+.replace-circle {
+    border: 3px solid white;
+    border-radius: 50%;
+    padding: 5px;
+
+}
+
+.replaceicon {
+    transition: all 0.2s;
+}
+
+.replace-circle:hover .replaceicon {
+    transform: rotate(180deg);
+}
+
+.no-replace-circle {
+    border: 3px solid white;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+   position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(-180deg);
+}
+.flip-card-front{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.flip-card-front,
+.flip-card-back {
+    top: 0px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: transparent;
+}
+
+.flip-card-back {
+    border: 1px solid #2E7BFF;
+    /* background-color: #2980b9; */
+    color: white;
+    transform: rotateY(180deg);
+}
+.connect-placeholder{
+    height: 200px;
+}
+.permitted-remove:hover{
+background-color: rgba(255, 255, 255, 0.06);
+}
+.coin-inner svg{
+    width: 100%;
+    height: 100%;
+}
