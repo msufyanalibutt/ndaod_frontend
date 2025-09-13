@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyDszT-kGAoPGM_5cjO9uNxSnagjYe5IDlk",
-  authDomain: "ndaod-16ded.firebaseapp.com",
-  projectId: "ndaod-16ded",
-  storageBucket: "ndaod-16ded.firebasestorage.app",
-  messagingSenderId: "308189491879",
-  appId: "1:308189491879:web:0b170ff3c25ab718206182"
+  apiKey: "AIzaSyBjIwORP-gV8B-D_qGgjiO7T6NFR-quJR4",
+  authDomain: "ndaod-6622b.firebaseapp.com",
+  projectId: "ndaod-6622b",
+  storageBucket: "ndaod-6622b.firebasestorage.app",
+  messagingSenderId: "249115218057",
+  appId: "1:249115218057:web:68ef4baca2d451af9bf658"
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-export { db }
+export { db };
