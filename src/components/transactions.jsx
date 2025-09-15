@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../utils/api';
 import moment from 'moment';
 import { ethers } from 'ethers';
 import { truncateAddress } from '../utils';
@@ -12,9 +12,9 @@ const Transactions = ({ chainId, address, covalent, account }) => {
         getTransactions()
     }, [chainId])
     const getTransactions = async () => {
-        const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/transactions_v2/?key=${covalent}`
+        const url = `/${chainId}/address/${address}/transactions_v2`
         try {
-            const result = await axios.get(url);
+            const result = await api.post('/covalent/api',{url});
             setTransactions(result.data.data.items);
         } catch (error) {
         }

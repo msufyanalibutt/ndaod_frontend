@@ -8,9 +8,8 @@ import { useWeb3React } from '@web3-react/core';
 import { WALLETCONTEXT } from '../../contexts/walletContext';
 import dayjs from 'dayjs';
 import { ethers } from 'ethers';
-import { covalent, exlcude_Address, PartialExitModule_contract_address, truncateAddress } from '../../utils';
-import axios from 'axios';
-import axois from '../../utils/api';
+import { exlcude_Address, PartialExitModule_contract_address, truncateAddress } from '../../utils';
+import api from '../../utils/api';
 import Toastify from '../../components/toast';
 import ConnectWallet from '../../components/sidebar/connectWallet';
 import { networks } from '../../utils/networks';
@@ -79,7 +78,7 @@ const CreatePartialOffer = () => {
                 txHash,
                 creator: account
             }
-            await axois.post('/create/voting', body);
+            await api.post('/create/voting', body);
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
@@ -179,9 +178,9 @@ const CreatePartialOffer = () => {
         }
     }
     const getDaoAssets = async () => {
-        const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?key=${covalent}`;
+        const url = `/${chainId}/address/${address}/balances_v2`;
         try {
-            const result = await axios.get(url);
+            const result = await api.get('/covalent/api',{url});
             let items = result.data.data.items;
             // items = items.filter((item) => item.contract_address !== exlcude_Address[chainId])
             setAssets(items);
@@ -285,7 +284,7 @@ const CreatePartialOffer = () => {
                 txHash,
                 creator: account
             }
-            await axois.post('/create/voting', body);
+            await api.post('/create/voting', body);
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
 

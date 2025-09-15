@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { BsGraphUp } from 'react-icons/bs';
 import { LazyLoadImage } from 'react-lazy-load-image-component';

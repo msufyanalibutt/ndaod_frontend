@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
-import axios from 'axios';
+import api from '../../utils/api';
 import { ethers } from 'ethers';
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { HiUserAdd } from 'react-icons/hi';
@@ -10,7 +10,7 @@ import { GiJoint } from 'react-icons/gi';
 import { NavLink, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { WALLETCONTEXT } from '../../contexts/walletContext';
-import { covalent, truncateAddress } from '../../utils';
+import {  truncateAddress } from '../../utils';
 import ClipBoard from '../clipboard';
 import Toastify from '../toast';
 import axois from '../../utils/api';
@@ -34,9 +34,9 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
         }
     }
     const getMembers = async () => {
-        const url = `https://api.covalenthq.com/v1/${chainId}/tokens/${address}/token_holders/?key=${covalent}`;
+        const url = `/${chainId}/tokens/${address}/token_holders`;
         try {
-            const result = await axios.get(url);
+            const result = await api.post('/covalent/api',{url});
             let items = result.data.data.items;
             setMembers(items.length)
         } catch (error) {

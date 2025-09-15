@@ -12,14 +12,13 @@ import { WALLETCONTEXT } from '../contexts/walletContext';
 import * as randomColor from 'randomcolor';
 import Dao from '../components/home/index';
 import VotingList from '../components/voting/VotingList';
-import { truncateAddress, covalent, index_contract_address, ShopTrading_contract_address } from '../utils';
+import { truncateAddress, index_contract_address, ShopTrading_contract_address } from '../utils';
 import { constants, ethers } from 'ethers';
 import Transactions from '../components/transactions';
-import axios from 'axios';
 import MyAssets from '../components/home/myassets';
 import { networks } from '../utils/networks';
 import ClipBoard from '../components/clipboard';
-
+import api from '../utils/api';
 const Home = () => {
     const [loading, setLoading] = useState(false);
     const [assets, setAssets] = useState([]);
@@ -90,9 +89,9 @@ const Home = () => {
         setDaoLists(items);
     }
     const getMyAssets = async () => {
-        const url = `https://api.covalenthq.com/v1/${chainId}/address/${account}/balances_v2/?key=${covalent}`;
+        const url = `/${chainId}/address/${account}/balances_v2`;
         try {
-            const result = await axios.get(url);
+            const result = await api.post('/covalent/api',{url});
             let items = result.data.data.items;
             setAssets(items);
         } catch (error) {
@@ -280,7 +279,7 @@ const Home = () => {
                                         </div>
                                         <div className='mytransaction text-white tabborder p-3'>
                                             {
-                                                account && <Transactions chainId={chainId} address={account} account={account} covalent={covalent} />
+                                                account && <Transactions chainId={chainId} address={account} account={account} />
                                             }
                                         </div>
                                     </Tab>

@@ -11,11 +11,10 @@ import { constants } from 'ethers';
 import { WALLETCONTEXT } from '../../contexts/walletContext';
 import dayjs from 'dayjs';
 import { ethers } from 'ethers';
-import axios from 'axios';
-import axois from '../../utils/api';
+import api from '../../utils/api';
 import Toastify from '../../components/toast';
 import ConnectWallet from '../../components/sidebar/connectWallet';
-import { covalent, exlcude_Address, PrivateExitModule_contract_address, truncateAddress } from '../../utils';
+import { exlcude_Address, PrivateExitModule_contract_address, truncateAddress } from '../../utils';
 import ClipBoard from '../../components/clipboard';
 import BurnLP from '../../components/privateExit/burnLP';
 const imageErrorSrc = '/images/NoImageCoinLogo.svg';
@@ -60,7 +59,7 @@ const DisablePrivateOffers = ({ offerId, recipient }) => {
                 txHash,
                 creator: account
             }
-            await axois.post('/create/voting', body);
+            await api.post('/create/voting', body);
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
@@ -220,7 +219,7 @@ const PrivateExit = () => {
                 txHash,
                 creator: account
             }
-            await axois.post('/create/voting', body);
+            await api.post('/create/voting', body);
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
@@ -270,9 +269,9 @@ const PrivateExit = () => {
         }
     }
     const getDaoAssets = async (address) => {
-        const url = `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?key=${covalent}`;
+        const url = `/${chainId}/address/${address}/balances_v2`;
         try {
-            const result = await axios.get(url);
+            const result = await api.post('/covalent/api',url);
             let items = result.data.data.items;
             setAssets(items);
         } catch (error) {

@@ -5,12 +5,11 @@ import { WALLETCONTEXT } from '../contexts/walletContext';
 import ConnectWallet from '../components/sidebar/connectWallet';
 import { HiLockOpen } from 'react-icons/hi';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { covalent, truncateAddress } from '../utils';
+import { truncateAddress } from '../utils';
 import Toastify from '../components/toast';
 import { ethers } from 'ethers';
 import dayjs from 'dayjs';
-import axios from 'axios';
-import axois from '../utils/api';
+import api from '../utils/api';
 import ClipBoard from '../components/clipboard';
 import TradingAccountAsset from '../components/dao/tradingAccountAssets';
 import { GiJoint } from 'react-icons/gi';
@@ -59,7 +58,7 @@ const DeleteTradingAccount = ({ address, tAddress, owner, member }) => {
                 txHash,
                 creator: account
             }
-            await axois.post('/create/voting', body);
+            await api.post('/create/voting', body);
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
@@ -120,18 +119,18 @@ const TradingAccount = () => {
         }
     }
     const getMembers = async () => {
-        const url = `https://api.covalenthq.com/v1/${chainId}/tokens/${tAddress}/token_holders/?key=${covalent}`;
+        const url = `/${chainId}/tokens/${tAddress}/token_holders`;
         try {
-            const result = await axios.get(url);
+            const result = await api.post('/covalent/api',{url});
             let items = result.data.data.items;
             setMembers(items)
         } catch (error) {
         }
     }
     const getTotalFunds = async () => {
-        const url = `https://api.covalenthq.com/v1/${chainId}/address/${tAddress}/balances_v2/?key=${covalent}`;
+        const url = `/${chainId}/address/${tAddress}/balances_v2`;
         try {
-            const result = await axios.get(url);
+            const result = await api.post('/covalent/api',{url});
             let items = result.data.data.items;
             setAssets(items);
             let aum = 0;
