@@ -171,5 +171,5 @@ export const exlcude_Address = {
   137: '0x0000000000000000000000000000000000001010',
   10: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
 }
-export const ssAffiliateId = 'OBkcPvtVt';
-export const ssAffiliateSecret = 'a8c97079c2aa6e5a10e27f88f5a2f0f2';
+export const ssAffiliateId = 'fntCPPu1p';
+export const ssAffiliateSecret = 'b672de9b526088a1f685205f4222b6a3';

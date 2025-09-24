@@ -55,7 +55,7 @@
         "settleOffline": false
     },
     {
-        "coin": "MATIC",
+        "coin": "Polygon",
         "networks": [
             "ethereum",
             "polygon"
@@ -69,3 +69,4 @@
         "settleOffline": false
     }
 ]
+

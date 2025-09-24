@@ -6,7 +6,7 @@
         "Address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
     },
     {
-        "Coin": "MATIC",
+        "Coin": "POL",
         "Network": "ETHEREUM",
         "ChainId": "1",
         "Address": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0"
@@ -42,7 +42,7 @@
         "Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174"
     },
     {
-        "Coin": "MATIC",
+        "Coin": "POL",
         "Network": "POLYGON",
         "ChainId": "137",
         "Address": "0x0000000000000000000000000000000000000000"
