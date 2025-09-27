@@ -145,17 +145,17 @@ const SellSwap = ({
                         {
                             sellSelected ? <>
                                 <img
-                                    src={sellSelected.logoURI}
-                                    style={{ maxWidth: '30px', marginRight: '10px' }} alt={sellSelected.logoURI} 
+                                    src={sellSelected.icon}
+                                    style={{ maxWidth: '30px', marginRight: '10px' }} alt={sellSelected.icon} 
                                     onError={(e) => {e.target.onerror = null; e.target.src = imageErrorSrc}}
                                     />
                                 <span>{sellSelected.symbol}</span>
                                 <MdKeyboardArrowDown />
                             </> : (tokens && tokens.length) && <>
                                 <img
-                                    src={tokens[0].logoURI}
+                                    src={tokens[0].icon}
                                     style={{ maxWidth: '30px', marginRight: '10px' }}
-                                    alt={tokens[0].logoURI}
+                                    alt={tokens[0].icon}
                                     onError={(e) => {e.target.onerror = null; e.target.src = imageErrorSrc}}
                                 />
                                 <span>{tokens[0].symbol}</span>
@@ -234,7 +234,7 @@ const SellSwap = ({
                                         <Col>
                                             <div className='d-inline-flex align-items-center'>
                                                 <div className='me-3'>
-                                                    <GetImage url={item.logoURI} alttext={item.symbol} />
+                                                    <GetImage url={item.icon} alttext={item.symbol} />
                                                 </div>
                                                 <div>
                                                     <h6>{item.symbol}</h6>

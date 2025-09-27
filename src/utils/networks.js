@@ -21,15 +21,15 @@ export const networks = {
     137: {
         chainId: 137,
         rpcUrls: [" https://rpc-mumbai.maticvigil.com"],
-        chainName: "Polygon",
+        chainName: "polygon",
         nativeCurrency: { name: "Polygon", decimals: 18, symbol: "MATIC" },
         blockExplorerUrls: ["https://polygonscan.com"],
         iconUrls: ["https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png"],
         wCoin: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
         wName: 'WMATIC',
-        inchCoin: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+        inchCoin: '0x0000000000000000000000000000000000001010',
         inchUsdt: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
-        inch: '0x1111111254fb6c44bAC0beD2854e76F90643097d',
+        inch: '0x6352a56caadC4F1E25CD6c75970Fa768A3304e64',
         symbosis: '0xf17e248eb6165f937b768bf47c9bd244a1275e62',
         bridge: {
             ethusdt: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
