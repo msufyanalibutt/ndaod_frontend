@@ -10,7 +10,7 @@ const Transactions = ({ chainId, address, covalent, account }) => {
     const [transactions, setTransactions] = useState([])
     useEffect(() => {
         getTransactions()
-    }, [chainId])
+    }, [chainId,address])
     const getTransactions = async () => {
         const url = `/${chainId}/address/${address}/transactions_v2`
         try {

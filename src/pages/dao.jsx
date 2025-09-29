@@ -62,7 +62,7 @@ const DAO = () => {
     if (active && chainId) {
       getDaoAssets(address);
     }
-  }, [chainId]);
+  }, [chainId,address]);
 
   const getDao = async (address) => {
     try {

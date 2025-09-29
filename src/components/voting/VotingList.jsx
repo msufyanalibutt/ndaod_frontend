@@ -19,7 +19,7 @@ const VotingList = ({ address, name, activated, over, sign, create }) => {
         if (active && chainId) {
             getVotingList()
         }
-    }, [active, chainId]);
+    }, [active, chainId,address]);
     const getVotingList = () => {
         if (!(ethers.constants.AddressZero === address)) {
             const q = query(collection(db, 'Voting'), where('daoAddress', '==', address.toLowerCase()));
@@ -81,7 +81,6 @@ const VotingList = ({ address, name, activated, over, sign, create }) => {
                             }
                             return false;
                         })
-                        console.log(items)
                         items = loadash.orderBy(items, ['active','sign','activated','createdAt'], ['desc','desc','desc','desc']);
                         setVotingList(items);
                         if (items.length > 0) {
