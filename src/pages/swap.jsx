@@ -33,7 +33,6 @@ const Swap = () => {
     const getDaosList = async () => {
         try {
             const result = await daoList(account);
-            console.log(result)
             setDaos(result);
         } catch (error) {
         }

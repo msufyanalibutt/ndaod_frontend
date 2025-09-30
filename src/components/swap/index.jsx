@@ -42,7 +42,7 @@ const Index = ({ senderAddress, searchParams }) => {
     if (fromAddress && account) {
       getInfo();
     }
-  }, [fromAddress, senderAddress]);
+  }, [fromAddress, senderAddress, toAddress]);
   useEffect(() => {
     if (chainId) {
       setToAddress(networks[chainId].inchUsdt);
@@ -53,6 +53,11 @@ const Index = ({ senderAddress, searchParams }) => {
       ApproveFromAddress();
     }
   }, [fromAddress, chainId]);
+  useEffect(() => {
+    if (fromAddress || toAddress) {
+      getConversionRate(values.fromBalance, { decimals: values.fromdecimals });
+    }
+  }, [fromAddress, toAddress]);
   const ApproveFromAddress = async () => {
     // try {
     //   let url = `https://api.1inch.io/v4.0/${chainId}/approve/transaction/?amount=115792089237316195423570985008687907853269984665640564039457584007913129639935&tokenAddress=${fromAddress}`;
@@ -62,7 +67,6 @@ const Index = ({ senderAddress, searchParams }) => {
   };
   const getInfo = async () => {
     try {
-      console.log("here");
       if (fromAddress === networks[chainId].inchCoin) {
         setApproved(true);
         return;
@@ -72,7 +76,6 @@ const Index = ({ senderAddress, searchParams }) => {
       }
       setLoading(true);
       const contract = await getCustomContract(fromAddress);
-      console.log("heres");
       let allowance = await contract.allowance(
         senderAddress,
         networks[chainId].inch
@@ -83,8 +86,9 @@ const Index = ({ senderAddress, searchParams }) => {
       } else {
         setApproved(false);
       }
-      setLoading(false);
     } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -93,7 +97,6 @@ const Index = ({ senderAddress, searchParams }) => {
       const result = await axios.get(
         `https://open-api.openocean.finance/v4/${networks[chainId].chainName}/tokenList`
       );
-      //   let tokens = result.data?.tokens.filter((t) => t.chainId === chainId);
       setTokens(result.data.data);
     } catch (error) {}
   };
@@ -103,22 +106,29 @@ const Index = ({ senderAddress, searchParams }) => {
     let to = toAddress;
     setFromAddress(to);
     setToAddress(from);
-    getConversionRate(values.toBalance, { decimals: values.todecimals });
+    // setFieldValue("toBalance",values.fromBalance);
+    setFieldValue("todecimals",values.fromdecimals);
+    // setFieldValue("fromBalance",values.toBalance);
+    setFieldValue("fromdecimals",values.todecimals);
+    // getConversionRate(values.fromBalance, { decimals: values.fromdecimals });
   };
   const getConversionRate = async (value, item) => {
     if (!value || value < 0) {
       setFieldValue("toBalance", 0);
       return;
     } else {
-      if (value === values.fromBalance) return;
+      // if (value === values.fromBalance) return;
       try {
         let amount = value * Math.pow(10, item.decimals);
         amount = amount.toLocaleString("fullwide", { useGrouping: false });
         let url = `https://open-api.openocean.finance/v4/${networks[chainId].chainName}/quote?inTokenAddress=${fromAddress}&outTokenAddress=${toAddress}&amountDecimals=${amount}&gasPriceDecimals=1000000000`;
         let result = await axios.get(url);
 
-        let quoteDecimals = result.data?.data?.outToken?.volume;
-        setFieldValue("toBalance", quoteDecimals);
+        let quoteDecimals = ethers.utils.formatUnits(
+          result.data?.data?.outAmount || 0,
+          result.data?.data?.outToken?.decimals
+        );
+        setFieldValue("toBalance", Number(quoteDecimals).toFixed(2));
         url = `https://open-api.openocean.finance/v4/${networks[chainId].chainName}/swap?fromAddress=${senderAddress}&inTokenAddress=${fromAddress}&outTokenAddress=${toAddress}&amountDecimals=${amount}&slippage=1&gasPriceDecimals=1000000000&account=${senderAddress}`;
         result = await axios.get(url);
         let data = result.data.data;
@@ -134,36 +144,25 @@ const Index = ({ senderAddress, searchParams }) => {
       ];
       const iface = new ethers.utils.Interface(swapABI);
       let result = iface.decodeFunctionData("swap", data);
-      console.log(result);
       let swapped = result[1];
-      //   let swapped = {
-      //     srcToken: result[1][0],
-      //     dstToken: result[1][1],
-      //     srcReceiver: result[1][2],
-      //     dstReceiver: result[1][3],
-      //     amount: result[1][4],
-      //     minReturnAmount: result[1][5],
-      //     flags: result[1][6],
-      //     permit: result[1][7],
-      //   };
-        if (senderAddress !== account) {
-          let bew = createForIface(result[0], swapped, result[2]);
-          moveToSwapToken(
-            bew,
-            networks[chainId].inchCoin === fromAddress ? swapped.amount : 0
-          );
-          return;
-        }
-        setLoading(true);
-        const contract = await getSwapContract(networks[chainId].inch);
-        let value =
-          networks[chainId].inchCoin === fromAddress ? swapped.amount : 0;
-        result = await contract.swap(result[0], swapped, result[2], {
-          value: value,
-        });
-        await result.wait();
-        Toastify("success", "Successfully Swap!");
-        resetFields();
+      if (senderAddress !== account) {
+        let bew = createForIface(result[0], swapped, result[2]);
+        moveToSwapToken(
+          bew,
+          networks[chainId].inchCoin === fromAddress ? swapped.amount : 0
+        );
+        return;
+      }
+      setLoading(true);
+      const contract = await getSwapContract(networks[chainId].inch);
+      let value =
+        networks[chainId].inchCoin === fromAddress ? swapped.amount : 0;
+      result = await contract.swap(result[0], swapped, result[2], {
+        value: value,
+      });
+      await result.wait();
+      Toastify("success", "Successfully Swap!");
+      resetFields();
     } catch (error) {
       Toastify("error", error.message);
     } finally {
@@ -262,8 +261,8 @@ const Index = ({ senderAddress, searchParams }) => {
   };
   const createForIface = (caller, desc, bew) => {
     let ABI = [
-        "function swap(address caller, (address srcToken, address dstToken, address srcReceiver, address dstReceiver, uint256 amount, uint256 minReturnAmount, uint256 guaranteedAmount, uint256 flags, address referrer, bytes permit) desc, (uint256 target, uint256 gasLimit, uint256 value, bytes data)[] calls) payable returns (uint256 returnAmount)",
-      ];
+      "function swap(address caller, (address srcToken, address dstToken, address srcReceiver, address dstReceiver, uint256 amount, uint256 minReturnAmount, uint256 guaranteedAmount, uint256 flags, address referrer, bytes permit) desc, (uint256 target, uint256 gasLimit, uint256 value, bytes data)[] calls) payable returns (uint256 returnAmount)",
+    ];
     let iface = new ethers.utils.Interface(ABI);
     iface = iface.encodeFunctionData("swap", [caller, desc, bew]);
     return iface;
@@ -326,13 +325,13 @@ const Index = ({ senderAddress, searchParams }) => {
                     <p className="p-0 m-0">Rate:</p>
                   </Col>
                   <Col className="text-right">
-                    <p className="p-0 m-0">
+                    <div className="p-0 m-0">
                       {values.toBalance > 0 && values.fromBalance > 0
-                        ? `1 ${values.toName} = ${Number(
-                            values.fromBalance / values.toBalance
-                          ).toFixed(4)} ${values.fromName}`
+                        ? `1 ${values.fromName} = ${Number(
+                            values.toBalance / values.fromBalance
+                          ).toFixed(4)} ${values.toName}`
                         : "Insert token amount to see rate"}
-                    </p>
+                    </div>
                   </Col>
                 </Row>
               </FormGroup>
@@ -357,7 +356,11 @@ const Index = ({ senderAddress, searchParams }) => {
                       fontSize: "20px",
                       fontWeight: "bold",
                     }}
-                    disabled={!(isValid && dirty && senderAddress) || loading}
+                    disabled={
+                      !(isValid && dirty && senderAddress) ||
+                      loading ||
+                      fromAddress === toAddress
+                    }
                   >
                     {loading ? (
                       <Spinner animation="border" variant="primary" />
