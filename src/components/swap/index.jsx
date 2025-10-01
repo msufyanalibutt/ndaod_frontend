@@ -12,7 +12,7 @@ import { constants, ethers } from "ethers";
 import Toastify from "../toast";
 import { useNavigate } from "react-router-dom";
 import { FiArrowDown } from "react-icons/fi";
-
+import api from '../../utils/api';
 const Index = ({ senderAddress, searchParams }) => {
   const navigate = useNavigate();
   const { chainId, account } = useWeb3React();
@@ -94,8 +94,8 @@ const Index = ({ senderAddress, searchParams }) => {
   };
   const getTokens = async () => {
     try {
-      const result = await axios.get(
-        `https://open-api.openocean.finance/v4/${networks[chainId].chainName}/tokenList`
+      const url = `/${networks[chainId].chainName}/tokenList`
+      const result = await api.post('/openOcean/api',{url}
       );
       setTokens(result.data.data);
     } catch (error) {}
@@ -121,16 +121,16 @@ const Index = ({ senderAddress, searchParams }) => {
       try {
         let amount = value * Math.pow(10, item.decimals);
         amount = amount.toLocaleString("fullwide", { useGrouping: false });
-        let url = `https://open-api.openocean.finance/v4/${networks[chainId].chainName}/quote?inTokenAddress=${fromAddress}&outTokenAddress=${toAddress}&amountDecimals=${amount}&gasPriceDecimals=1000000000`;
-        let result = await axios.get(url);
+        let url = `/${networks[chainId].chainName}/quote?inTokenAddress=${fromAddress}&outTokenAddress=${toAddress}&amountDecimals=${amount}&gasPriceDecimals=1000000000`;
+        let result = await api.post('/openOcean/api',{url});
 
         let quoteDecimals = ethers.utils.formatUnits(
           result.data?.data?.outAmount || 0,
           result.data?.data?.outToken?.decimals
         );
         setFieldValue("toBalance", Number(quoteDecimals).toFixed(2));
-        url = `https://open-api.openocean.finance/v4/${networks[chainId].chainName}/swap?fromAddress=${senderAddress}&inTokenAddress=${fromAddress}&outTokenAddress=${toAddress}&amountDecimals=${amount}&slippage=1&gasPriceDecimals=1000000000&account=${senderAddress}`;
-        result = await axios.get(url);
+        url = `/${networks[chainId].chainName}/swap?fromAddress=${senderAddress}&inTokenAddress=${fromAddress}&outTokenAddress=${toAddress}&amountDecimals=${amount}&slippage=1&gasPriceDecimals=1000000000&account=${senderAddress}`;
+        result = await api.post('/openOcean/api',{url});
         let data = result.data.data;
         setData(data.data);
       } catch (error) {}
