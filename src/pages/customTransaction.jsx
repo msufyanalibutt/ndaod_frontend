@@ -35,11 +35,20 @@ const CustomTransaction = () => {
         const value = ethers.utils.formatEther(query.get('value') || "0");
         const title = query.get('title');
         const description = query.get('desc');
-        setFieldValue('targetAddress', targetAddress);
-        setFieldValue('data', data);
-        setFieldValue('value', value);
-        setFieldValue('title', title ? title : '');
-        setFieldValue('description', description);
+        // setFieldValue('targetAddress', targetAddress);
+        // setFieldValue('data', data);
+        // setFieldValue('value', value);
+        // setFieldValue('title', title ? title : '');
+        // setFieldValue('description', description);
+         resetForm({
+    values: {
+      targetAddress: targetAddress || "",
+      data: data || "",
+      value: value || 0,
+      title: title || "",
+      description: description || ""
+    }
+  });
     }, [])
     const handleFormSubmit = async ({ title, description, data, value, targetAddress }) => {
         if (!library) return;
@@ -263,7 +272,7 @@ const CustomTransaction = () => {
                                                 type="submit"
                                                 className='dao-btn w-100'
                                                 style={{ backgroundColor: '#8AB5FF', color: '#0D0D15', fontSize: '20px' }}
-                                                disabled={!(isValid && dirty) || loading || iloading}
+                                                disabled={!isValid || loading || iloading}
                                             >
                                                 {
                                                     loading ? <Spinner animation="border" variant="primary" /> : <><HiSpeakerphone className='icon' />
