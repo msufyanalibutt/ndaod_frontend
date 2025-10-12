@@ -30,27 +30,26 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
   const handleShow = () => setShow(true);
   useEffect(() => {
     getInfo();
-    getMembers();
+    // getMembers();
   }, [chainId, account]);
   const getInfo = async () => {
     try {
       const contract = await getShopTAccountContract(address);
-      console.log(contract);
       const name = await contract.name();
       setName(name);
       const members = await contract.getAllMembers(account);
-      console.log(members);
       setMembersList(members);
+      setMembers(members.length);
     } catch (error) {}
   };
-  const getMembers = async () => {
-    const url = `/${chainId}/tokens/${address}/token_holders`;
-    try {
-      const result = await api.post("/covalent/api", { url });
-      let items = result.data.data.items;
-      setMembers(items.length);
-    } catch (error) {}
-  };
+  // const getMembers = async () => {
+  //   const url = `/${chainId}/tokens/${address}/token_holders`;
+  //   try {
+  //     const result = await api.post("/covalent/api", { url });
+  //     let items = result.data.data.items;
+  //     setMembers(items.length);
+  //   } catch (error) {}
+  // };
   const handleFormSubmit = async (_main) => {
     if (!library) return;
     try {
@@ -83,7 +82,7 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
         creator: account,
       };
       await axois.post("/create/voting", body);
-      navigate(`/dao/${address}/votingPage/${txHash}`);
+      navigate(`/dao/${daoAddress}/votingPage/${txHash}`);
     } catch (error) {
       Toastify("error", error.message);
     }
