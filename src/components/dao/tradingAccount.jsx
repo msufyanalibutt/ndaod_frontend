@@ -1,145 +1,202 @@
-import { useWeb3React } from '@web3-react/core';
-import api from '../../utils/api';
-import { ethers } from 'ethers';
-import  { useState } from 'react';
-import { useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
-import { HiUserAdd } from 'react-icons/hi';
-import { BiTransferAlt } from 'react-icons/bi';
-import { GiJoint } from 'react-icons/gi';
-import { NavLink, useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { WALLETCONTEXT } from '../../contexts/walletContext';
-import {  truncateAddress } from '../../utils';
-import ClipBoard from '../clipboard';
-import Toastify from '../toast';
-import axois from '../../utils/api';
-import { networks } from '../../utils/networks';
+import { useWeb3React } from "@web3-react/core";
+import api from "../../utils/api";
+import { ethers } from "ethers";
+import { useState } from "react";
+import { useEffect } from "react";
+import { Button, Col, Modal, Row } from "react-bootstrap";
+import { HiUserAdd } from "react-icons/hi";
+import { BiTransferAlt } from "react-icons/bi";
+import { GiJoint } from "react-icons/gi";
+import { NavLink, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import { WALLETCONTEXT } from "../../contexts/walletContext";
+import { truncateAddress } from "../../utils";
+import ClipBoard from "../clipboard";
+import Toastify from "../toast";
+import axois from "../../utils/api";
+import { networks } from "../../utils/networks";
+import { ImCross } from "react-icons/im";
+import { FaRegEye } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
-    const { account, library } = useWeb3React();
-    const navigate = useNavigate();
-    const { getShopTAccountContract, dao } = WALLETCONTEXT();
-    const [name, setName] = useState(null);
-    const [members, setMembers] = useState(0);
-    useEffect(() => {
-        getInfo();
-        getMembers()
-    }, [chainId])
-    const getInfo = async () => {
-        try {
-            const contract = await getShopTAccountContract(address);
-            const name = await contract.name();
-            setName(name)
-        } catch (error) {
-        }
+  const { account, library } = useWeb3React();
+  const navigate = useNavigate();
+  const { getShopTAccountContract, dao } = WALLETCONTEXT();
+  const [name, setName] = useState(null);
+  const [members, setMembers] = useState(0);
+  const [membersList, setMembersList] = useState([]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  useEffect(() => {
+    getInfo();
+    getMembers();
+  }, [chainId, account]);
+  const getInfo = async () => {
+    try {
+      const contract = await getShopTAccountContract(address);
+      console.log(contract);
+      const name = await contract.name();
+      setName(name);
+      const members = await contract.getAllMembers(account);
+      console.log(members);
+      setMembersList(members);
+    } catch (error) {}
+  };
+  const getMembers = async () => {
+    const url = `/${chainId}/tokens/${address}/token_holders`;
+    try {
+      const result = await api.post("/covalent/api", { url });
+      let items = result.data.data.items;
+      setMembers(items.length);
+    } catch (error) {}
+  };
+  const handleFormSubmit = async (_main) => {
+    if (!library) return;
+    try {
+      const contract = await dao(daoAddress);
+      let timestamp = dayjs().unix();
+      let iface = createForIface(_main);
+      const txHash = await contract.getTxHash(address, iface, 0, 0, timestamp);
+      const signature = await library.provider.request({
+        method: "personal_sign",
+        params: [txHash, account],
+      });
+      if (!owner) {
+        Toastify("error", "Request failed with status code 400");
+        return;
+      }
+      let body = {
+        signature,
+        data: iface,
+        hex_signature: String(iface).slice(0, 10),
+        daoAddress: daoAddress,
+        target: address,
+        title: `Remove Trader ${_main} with associated exchanges account`,
+        description: "",
+        chainId,
+        value: 0,
+        nonce: 0,
+        createdAt: timestamp,
+        timestamp: 0,
+        txHash,
+        creator: account,
+      };
+      await axois.post("/create/voting", body);
+      navigate(`/dao/${address}/votingPage/${txHash}`);
+    } catch (error) {
+      Toastify("error", error.message);
     }
-    const getMembers = async () => {
-        const url = `/${chainId}/tokens/${address}/token_holders`;
-        try {
-            const result = await api.post('/covalent/api',{url});
-            let items = result.data.data.items;
-            setMembers(items.length)
-        } catch (error) {
-        }
-    }
-    const handleFormSubmit = async () => {
-        if (!library) return;
-        try {
-            const contract = await dao(daoAddress);
-            let timestamp = dayjs().unix();
-            let iface = createForIface(address)
-            const txHash = await contract.getTxHash(
-                address,
-                iface,
-                0,
-                0,
-                timestamp
-            )
-            const signature = await library.provider.request({
-                method: "personal_sign",
-                params: [txHash, account]
-            })
-            if (!owner) {
-                Toastify('error', 'Request failed with status code 400');
-                return;
-            }
-            let body = {
-                signature,
-                data: iface,
-                hex_signature: String(iface).slice(0, 10),
-                daoAddress: daoAddress,
-                target: address,
-                title: `Remove Trader ${address}`,
-                description: '',
-                chainId,
-                value: 0,
-                nonce: 0,
-                createdAt: timestamp,
-                timestamp: 0,
-                txHash,
-                creator: account
-            }
-            await axois.post('/create/voting', body);
-            navigate(`/dao/${address}/votingPage/${txHash}`);
-        } catch (error) {
-            Toastify('error', error.message);
-        }
-    }
-    const createForIface = (to) => {
-        let ABI = ["function burn(address _to)"];
-        let iface = new ethers.utils.Interface(ABI);
-        iface = iface.encodeFunctionData("burn", [to]);
-        return iface
-    }
-    const UserPermission = () => {
-        let result = window.confirm("Are you sure?");
-        if (result) {
-            handleFormSubmit()
-        }
-    }
-    return (
-        <>
-            <Row className='d-flex align-items-center'>
-                <Col className="mb-3 text-white ">
-                    <NavLink className='text-white' to={`/tradingAccount/${daoAddress}/${address}/${name}`}>
-                        <span>{truncateAddress(address)} </span>
-                    </NavLink><ClipBoard address={address} />
-                </Col>
-                <Col className="mb-3 text-white text-center">
-                    <span>{name}</span>
-                </Col>
-                <Col className="mb-3 text-white text-center">
-                    <span>{members}</span>
-                </Col>
-                <Col className="mb-3 text-white">
-                    {
-                        owner && <NavLink to={`/addMembertoTa/${daoAddress}?TA=${address}`}
-                            className="dao-btn d-inline-block text-center px-2 py-1 me-2"
-                            style={{ fontSize: '100%' }}
-                        >
-                            <HiUserAdd />
-                        </NavLink>
-                    }
-                    {
-                        owner &&
-                        <NavLink className="dao-btn px-1 py-1 me-2 d-inline-block" to={`/sendCoin/${daoAddress}/?TA=${address}`}>
-                            <img
-                                src={networks[chainId].iconUrls}
-                                style={{ width: "25px" }}
-                                alt="matic_icon"
-                            />
-                        </NavLink>
-                    }
-                    {
-                        owner &&
-                        <NavLink className={`dao-btn px-2 py-1 me-2`} to={`/sendToken/${daoAddress}/?TA=${address}`}>
-                            <BiTransferAlt />
-                        </NavLink>
-                    }
-                </Col>
+  };
+  const createForIface = (to) => {
+    let ABI = ["function burn(address _to)"];
+    let iface = new ethers.utils.Interface(ABI);
+    iface = iface.encodeFunctionData("burn", [to]);
+    return iface;
+  };
+//   const UserPermission = () => {
+//     let result = window.confirm("Are you sure?");
+//     if (result) {
+//       handleFormSubmit();
+//     }
+//   };
+  return (
+    <>
+      <Row className="d-flex align-items-center">
+        <Col className="mb-3 text-white ">
+          <NavLink
+            className="text-white"
+            to={`/tradingAccount/${daoAddress}/${address}/${name}`}
+          >
+            <span>{truncateAddress(address)} </span>
+          </NavLink>
+          <ClipBoard address={address} />
+        </Col>
+        <Col className="mb-3 text-white text-center">
+          <span>{name}</span>
+        </Col>
+        <Col className="mb-3 text-white text-center">
+          <span>{members}</span>
+        </Col>
+        <Col className="mb-3 text-white">
+          {owner && (
+            <NavLink
+              to={`/addMembertoTa/${daoAddress}?TA=${address}`}
+              className="dao-btn d-inline-block text-center px-2 py-1 me-2"
+              style={{ fontSize: "100%" }}
+            >
+              <HiUserAdd />
+            </NavLink>
+          )}
+          {owner && (
+            <NavLink
+              className="dao-btn px-1 py-1 me-2 d-inline-block"
+              to={`/sendCoin/${daoAddress}/?TA=${address}`}
+            >
+              <img
+                src={networks[chainId].iconUrls}
+                style={{ width: "25px" }}
+                alt="matic_icon"
+              />
+            </NavLink>
+          )}
+          {owner && (
+            <NavLink
+              className={`dao-btn px-2 py-1 me-2`}
+              to={`/sendToken/${daoAddress}/?TA=${address}`}
+            >
+              <BiTransferAlt />
+            </NavLink>
+          )}
+          {owner && (
+            <button className="dao-btn px-2 py-1 me-2" onClick={handleShow}>
+              <FaRegEye />
+            </button>
+          )}
+        </Col>
+      </Row>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Body>
+          <div className="text-right mb-3">
+            <ImCross onClick={handleClose} />
+          </div>
+          {membersList.map((item, id) => (
+            <Row key={id} className="m-0 mb-3 py-2">
+              <Col>
+                Trader: {truncateAddress(item.mainAddress)}{" "}
+                <ClipBoard address={item.mainAddress} />
+              </Col>
+              <Col className="text-right">
+                <Button variant="danger" size="sm" onClick={()=>handleFormSubmit(item.mainAddress)}>
+                  <MdDelete />
+                </Button>
+              </Col>
+              <hr className="m-0 p-0 my-3" />
+              <Row className="p-0 m-0">
+                <Col className="">Account</Col>
+                <Col className="text-right">Exchange</Col>
+              </Row>
+              {item.subMembers.map((sItem, index) => (
+                <Row className="m-0 p-0" key={index}>
+                  <Col className="">
+                    {truncateAddress(sItem.subAddress)}{" "}
+                    <ClipBoard address={sItem.subAddress} />
+                  </Col>
+                  <Col className="text-right">{sItem.name}</Col>
+                </Row>
+              ))}
+              {/* <Col className="text-right">
+                <FaCircleMinus
+                  className="pointer"
+                  onClick={() => removeExchange(id)}
+                />
+              </Col> */}
             </Row>
-        </>
-    )
-}
+          ))}
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
 
 export default TradingAccount;

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Container, Form, FormGroup, Spinner } from "react-bootstrap";
 import SellSwap from "./sell";
 import BuySwap from "./buy";
-import axios from "axios";
 import { networks } from "../../utils/networks";
 import { useFormik } from "formik";
 import * as yup from "yup";

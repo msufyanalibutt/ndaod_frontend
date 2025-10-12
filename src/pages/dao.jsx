@@ -393,6 +393,7 @@ const DAO = () => {
                                       address={item}
                                       chainId={chainId}
                                       owner={owner}
+                                      account={account}
                                     />
                                   </Col>
                                 ))}

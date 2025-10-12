@@ -1,17 +1,17 @@
-import indexAbi from './abis/index.json';
-import daoAbi from './abis/Dao.json';
-import daoViewerAbi from './abis/Dao_Viewer.json';
-import customAbi from './abis/customAbi.json';
-import shopLPAbi from './abis/shopLP.json';
-import lpAbi from './abis/LP.json';
-import swapAbi from './abis/swapAbi.json';
-import bridgeAbi from './abis/bridgeAbi.json';
-import privateExistAbi from './abis/privateExit.json';
-import partialExistAbi from './abis/partialExit.json';
-import shopTAAbi from './abis/shop_Ta.json';
-import TradingAccountAbi from './abis/tradingAccount.json';
+import indexAbi from "./abis/index.json";
+import daoAbi from "./abis/Dao.json";
+import daoViewerAbi from "./abis/Dao_Viewer.json";
+import customAbi from "./abis/customAbi.json";
+import shopLPAbi from "./abis/shopLP.json";
+import lpAbi from "./abis/LP.json";
+import swapAbi from "./abis/swapAbi.json";
+import bridgeAbi from "./abis/bridgeAbi.json";
+import privateExistAbi from "./abis/privateExit.json";
+import partialExistAbi from "./abis/partialExit.json";
+import shopTAAbi from "./abis/shop_Ta.json";
+import TradingAccountAbi from "./abis/tradingAccount.json";
 
-import moment from 'moment';
+import moment from "moment";
 export const truncateAddress = (address) => {
   if (!address) return "No Account";
   const match = address.match(
@@ -71,42 +71,44 @@ export const toHex = (num) => {
 // export const PartialExitModule_contract_address = "0x29943884B926e2D00154CAc5DaD1A5Da0E7eD876";
 // export const ShopTrading_contract_address = "0x7264895cb3CfB0b75809808450901FF5A33eBCA6";
 
-//Working on Optimism and Matic Network 
+//Working on Optimism and Matic Network
 export const ndaod_Erc20 = {
   // 10: "0x762c6Dc57b8B8588D3820aEa34f3d0972FCb175A",
   // 137: "0xF0D4876C85B1E7A6C9d4058417Fce2Eb39945FA6",
-  137: "0x167fE700F9a64F14A8Ce324908a0Ce734e4349d8"
+  137: "0x167fE700F9a64F14A8Ce324908a0Ce734e4349d8",
 };
 
 export const index_contract_address = {
   // 10: "0x2F0C76cdaAE57eb67AaeaF58EF33dd724dDb0447",
   // 137: "0xeD2235AB57719dc8D9B9f20F6b04512E9C300434",
-  137: "0xBCacF4c0b0Ef49E20344898BA1cC18f094BF9fa0"
+  137: "0xBCacF4c0b0Ef49E20344898BA1cC18f094BF9fa0",
 };
 export const daoViewer_contract_address = {
   // 10: "0xD15e977FCCe24d6B6C3603f3a6bB403a2c3b2Ecf",
   // 137: "0x8cC951649e30d50bf2E4B98010656253954fAea6"
-  137: "0x9632efa96929dbe5e04fe6e87de3678e9945895c"
+  137: "0x9632efa96929dbe5e04fe6e87de3678e9945895c",
 };
 export const ShopLp_contract_address = {
   // 10: "0xa79e3cd545aff110aB7e1c85599c16890808fB4C",
   // 137: "0x78f6D6C2d70E3192e6404Ca3831eed880D81E980"
-  137: "0xbCb74E113365F49c218Db50ED5a5F5455A11b298"
+  137: "0xbCb74E113365F49c218Db50ED5a5F5455A11b298",
 };
 export const PrivateExitModule_contract_address = {
   // 10: "0xAeb56bcC8339d92529b13AeF6071f23fb8790721",
   // 137: "0xA95E9bC1d050823F02F03F43E5FB64e40D7fFB2F"
-  137: "0xf7c9415e0a8910a0087eddaabd923de627f35166"
+  137: "0xf7c9415e0a8910a0087eddaabd923de627f35166",
 };
 export const PartialExitModule_contract_address = {
   // 10: "0xb14EecE0fEF357d270DE24db1e30493801ae65de",
   // 137: "0x82778bC10A9Bf7263B0F1Bc340EE4B080892521D"
-  137: "0x29943884B926e2D00154CAc5DaD1A5Da0E7eD876"
+  137: "0x29943884B926e2D00154CAc5DaD1A5Da0E7eD876",
 };
 export const ShopTrading_contract_address = {
   // 10: "0xEc49AF1e7FA9d1C26CEB66D48e327334316123A9",
   // 137: "0xDC1c422e05F2643bE183b6eFE488cB12cD224074"
-  137: "0xd5431d929500DD3D61731228909621E9fb44dcb7"
+  // 137: "0xd5431d929500DD3D61731228909621E9fb44dcb7",
+  // 137: "0xBA50d87723fB33B85949287b3dc75458b58333bb",
+  137: "0xfc97f9c6797b98585cc7600bd645e0738161ff98",
 };
 
 // export const ndaod_Erc20 = "0xF0D4876C85B1E7A6C9d4058417Fce2Eb39945FA6";
@@ -150,26 +152,26 @@ export const hex_signatures = {
   "0xf85ca187": "freezeBurningStatus()",
   "0x05cf79b9": "changeQuorum(uint8)",
   "0xa9059cbb": "transfer(address, uint256)",
-  "0x095ea7b3": "approve(address,uint256)"
-}
+  "0x095ea7b3": "approve(address,uint256)",
+};
 export const calculateDate = (date) => {
   let scheduledDate = moment(date * 1000).format();
-  scheduledDate = moment(scheduledDate).add(3, 'days')
+  scheduledDate = moment(scheduledDate).add(3, "days");
   let diff = moment.duration(scheduledDate.diff(moment()));
   let count = Math.ceil(diff.asDays());
   if (count === 3) {
-    return '3 days left';
+    return "3 days left";
   } else if (count === 2) {
-    return '2 days left';
+    return "2 days left";
   } else if (count === 1) {
-    return 'a day left';
+    return "a day left";
   }
-}
+};
 
 export const exlcude_Address = {
-  80001: '0x0000000000000000000000000000000000001010',
-  137: '0x0000000000000000000000000000000000001010',
-  10: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
-}
-export const ssAffiliateId = 'fntCPPu1p';
-export const ssAffiliateSecret = 'b672de9b526088a1f685205f4222b6a3';
+  80001: "0x0000000000000000000000000000000000001010",
+  137: "0x0000000000000000000000000000000000001010",
+  10: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+};
+export const ssAffiliateId = "fntCPPu1p";
+export const ssAffiliateSecret = "b672de9b526088a1f685205f4222b6a3";
