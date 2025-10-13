@@ -18,6 +18,7 @@ import { networks } from "../../utils/networks";
 import { ImCross } from "react-icons/im";
 import { FaRegEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import TradingAccountValue from "./tradingAccountValue";
 const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
   const { account, library } = useWeb3React();
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
   const handleShow = () => setShow(true);
   useEffect(() => {
     getInfo();
-    // getMembers();
   }, [chainId, account]);
   const getInfo = async () => {
     try {
@@ -42,14 +42,6 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
       setMembers(members.length);
     } catch (error) {}
   };
-  // const getMembers = async () => {
-  //   const url = `/${chainId}/tokens/${address}/token_holders`;
-  //   try {
-  //     const result = await api.post("/covalent/api", { url });
-  //     let items = result.data.data.items;
-  //     setMembers(items.length);
-  //   } catch (error) {}
-  // };
   const handleFormSubmit = async (_main) => {
     if (!library) return;
     try {
@@ -93,12 +85,12 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
     iface = iface.encodeFunctionData("burn", [to]);
     return iface;
   };
-//   const UserPermission = () => {
-//     let result = window.confirm("Are you sure?");
-//     if (result) {
-//       handleFormSubmit();
-//     }
-//   };
+  //   const UserPermission = () => {
+  //     let result = window.confirm("Are you sure?");
+  //     if (result) {
+  //       handleFormSubmit();
+  //     }
+  //   };
   return (
     <>
       <Row className="d-flex align-items-center">
@@ -166,7 +158,11 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
                 <ClipBoard address={item.mainAddress} />
               </Col>
               <Col className="text-right">
-                <Button variant="danger" size="sm" onClick={()=>handleFormSubmit(item.mainAddress)}>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleFormSubmit(item.mainAddress)}
+                >
                   <MdDelete />
                 </Button>
               </Col>
@@ -174,22 +170,13 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
               <Row className="p-0 m-0">
                 <Col className="">Account</Col>
                 <Col className="text-right">Exchange</Col>
+                <Col className="text-right">Balance</Col>
               </Row>
               {item.subMembers.map((sItem, index) => (
-                <Row className="m-0 p-0" key={index}>
-                  <Col className="">
-                    {truncateAddress(sItem.subAddress)}{" "}
-                    <ClipBoard address={sItem.subAddress} />
-                  </Col>
-                  <Col className="text-right">{sItem.name}</Col>
-                </Row>
+                <div className="m-0 p-0" key={index}>
+                  <TradingAccountValue sItem={sItem} />
+                </div>
               ))}
-              {/* <Col className="text-right">
-                <FaCircleMinus
-                  className="pointer"
-                  onClick={() => removeExchange(id)}
-                />
-              </Col> */}
             </Row>
           ))}
         </Modal.Body>

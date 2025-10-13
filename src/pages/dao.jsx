@@ -25,8 +25,13 @@ import ClipBoard from "../components/clipboard";
 import api from "../utils/api";
 const DAO = () => {
   const { address } = useParams();
-  const { dao, getDaoViewerContract, getLpContract, getShopTaContract } =
-    WALLETCONTEXT();
+  const {
+    dao,
+    getDaoViewerContract,
+    getLpContract,
+    getShopTaContract,
+    getShopTAccountContract,
+  } = WALLETCONTEXT();
   const [daoConfig, setDaoConfig] = useState({
     gtMintable: false,
     gtBurnable: false,
@@ -62,8 +67,47 @@ const DAO = () => {
     if (active && chainId) {
       getDaoAssets(address);
     }
-  }, [chainId,address]);
+  }, [chainId, address]);
 
+ useEffect(() => {
+  if (!Array.isArray(taAccounts) || !taAccounts.length) return;
+
+  const timeout = setTimeout(() => {
+    getBatchHPL();
+  }, 500); // wait 0.5 sec before calling
+
+  return () => clearTimeout(timeout);
+}, [taAccounts]);
+
+  const getBatchHPL = async () => {
+    try {
+      if (!taAccounts || taAccounts.length === 0) return;
+      const results = await Promise.allSettled(
+        taAccounts.map(async (address) => {
+          try {
+            const contract = await getShopTAccountContract(address);
+            const members = await contract.getAllMembers(account);
+            return { account, members };
+          } catch (err) {
+            return { account, error: err.message };
+          }
+        })
+      );
+      const success = results
+        .filter((r) => r.status === "fulfilled" && !r.value.error)
+        .map((r) => {
+          return r.value;
+        });
+      const addresses = success.flatMap((item) =>
+        item.members.flatMap((member) =>
+          (member.subMembers || []).map((sub) => sub.subAddress)
+        )
+      );
+
+      const result = await api.post("/hplCall/api/batch", { addresses });
+      setDaoBalance(daoBalance+result.data.total);
+    } catch (error) {}
+  };
   const getDao = async (address) => {
     try {
       let contract = await dao(address);
@@ -219,14 +263,7 @@ const DAO = () => {
                     </Col>
                     <Col className="text-center">
                       <h6>AUM</h6>
-                      <h2>
-                        $
-                        {new Intl.NumberFormat("en-US", {
-                          maximumFractionDigits: 2,
-                          notation: "compact",
-                          compactDisplay: "short",
-                        }).format(daoBalance)}
-                      </h2>
+                      <h2>${Number(daoBalance).toFixed(2)}</h2>
                     </Col>
                   </Row>
                 </div>
