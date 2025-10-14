@@ -109,7 +109,7 @@ const BurnLP = ({ item, handleCloseBPOffer }) => {
             setLoading(false);
             handleCloseBPOffer();
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }

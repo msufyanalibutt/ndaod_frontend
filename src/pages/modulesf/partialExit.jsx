@@ -58,7 +58,7 @@ const DisablePrivateOffers = ({ offerId, recipient }) => {
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -125,7 +125,7 @@ const PrivateExist = () => {
             }));
             setPartialsOffers(result)
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
         }
     }
     const navigateToPartial = () => {

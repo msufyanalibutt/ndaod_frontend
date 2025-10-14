@@ -73,7 +73,7 @@ const FreezeLPBurning = () => {
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -129,7 +129,7 @@ const FreezeLPBurning = () => {
             setiLoading(false);
             resetForm();
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setiLoading(false)
         }
     }

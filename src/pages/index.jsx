@@ -37,6 +37,7 @@ export { default as CreatePartialOffer } from './modulesf/createPartialOffer';
 export { default as Profile } from './profile';
 export { default as CreateTa } from './createTa';
 export { default as AddMemberToTA } from './addMemberToTA';
+export { default as AddSubMemberToTA } from './addSubMemberToTA';
 export { default as TradingAccount } from './tradingAccount';
 export {default as SendCoinFromTA } from './sendCoinFromTA';
 export {default as SendTokenFromTA } from './sendTokenFromTA';

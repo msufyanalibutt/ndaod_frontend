@@ -90,7 +90,7 @@ const BurnLPModal = ({
             setLoading(false);
             setBurnModal(false)
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false);
         }
     }

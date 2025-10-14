@@ -100,7 +100,7 @@ const Connect = () => {
             const { connected } = connector;
             setConnector(connector);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
         }
     }
     const onURIPaste = async (value) => {
@@ -120,7 +120,7 @@ const Connect = () => {
             }
             setConnector(connector);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
         }
     }
     const subscribeToEvents = () => {

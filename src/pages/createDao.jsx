@@ -49,7 +49,7 @@ const CreateDao = () => {
             setLoading(false);
             navigate(`/dao/${result.dao}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false);
         }
     }

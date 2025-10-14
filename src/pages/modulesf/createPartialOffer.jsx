@@ -82,7 +82,7 @@ const CreatePartialOffer = () => {
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -289,7 +289,7 @@ const CreatePartialOffer = () => {
             navigate(`/dao/${address}/votingPage/${txHash}`);
 
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }

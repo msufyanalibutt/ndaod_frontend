@@ -70,7 +70,7 @@ const AddAdapter = () => {
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -126,7 +126,7 @@ const AddAdapter = () => {
             resetForm();
             getDaoMembers(address);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setiLoading(false)
         }
     }

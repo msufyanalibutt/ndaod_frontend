@@ -28,7 +28,7 @@ const TradingModule = () => {
             const list = await daoList(account);
             setDaos(list)
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
         }
     }
     const handleClose = () => setShow(false);

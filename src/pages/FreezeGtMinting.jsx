@@ -128,7 +128,7 @@ const FreezeGtMinting = () => {
             setiLoading(false);
             resetForm();
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setiLoading(false)
         }
     }

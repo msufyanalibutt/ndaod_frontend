@@ -54,7 +54,7 @@ const DAO = () => {
   const [taAccounts, setTaAccounts] = useState([]);
   const { account, chainId, active, library } = useWeb3React();
   const [owner, setOwner] = useState(false);
-
+  const [hyperLiquidBalances, setHyperLiquidBalances] = useState([]);
   useEffect(() => {
     if (account && active && chainId) {
       getDaoOwners(address);
@@ -69,15 +69,15 @@ const DAO = () => {
     }
   }, [chainId, address]);
 
- useEffect(() => {
-  if (!Array.isArray(taAccounts) || !taAccounts.length) return;
+  useEffect(() => {
+    if (!Array.isArray(taAccounts) || !taAccounts.length) return;
 
-  const timeout = setTimeout(() => {
-    getBatchHPL();
-  }, 500); // wait 0.5 sec before calling
+    const timeout = setTimeout(() => {
+      getBatchHPL();
+    }, 500); // wait 0.5 sec before calling
 
-  return () => clearTimeout(timeout);
-}, [taAccounts]);
+    return () => clearTimeout(timeout);
+  }, [taAccounts]);
 
   const getBatchHPL = async () => {
     try {
@@ -103,9 +103,10 @@ const DAO = () => {
           (member.subMembers || []).map((sub) => sub.subAddress)
         )
       );
-
+      if(address.length===0) return;
       const result = await api.post("/hplCall/api/batch", { addresses });
-      setDaoBalance(daoBalance+result.data.total);
+      setHyperLiquidBalances(result.data.data);
+      setDaoBalance(daoBalance + result.data.total);
     } catch (error) {}
   };
   const getDao = async (address) => {
@@ -291,6 +292,7 @@ const DAO = () => {
                           chainId={chainId}
                           address={address}
                           account={address}
+                          hyperLiquidBalances={hyperLiquidBalances}
                         />
                       )}
                     </div>

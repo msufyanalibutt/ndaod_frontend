@@ -91,7 +91,7 @@ const SendToken = () => {
             setLoading(false)
             navigate(`/dao/${recipientAddress}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -146,7 +146,7 @@ const SendToken = () => {
             setiLoading(false);
             navigate(`/dao/${recipientAddress}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setiLoading(false)
         }
     }

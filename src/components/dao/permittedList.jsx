@@ -29,7 +29,7 @@ const Index = ({ daoAddress }) => {
             setAdapterList(adapters);
             setLoading(false);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false);
         }
     }

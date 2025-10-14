@@ -88,7 +88,7 @@ const SignTransaction = () => {
                     setShow(false);
                 }
             } catch (error) {
-                Toastify('error', error.message);
+                Toastify('error', error);
             }
         })
     }
@@ -104,7 +104,7 @@ const SignTransaction = () => {
             let user = doc.signatures.filter(item => item.userAddress === account.toLowerCase());
             if (user && user.length > 0) {
                 // alert('Already Signed!')
-                Toastify('info', 'Already Signed!')
+                Toastify('info', {message:'Already Signed!'})
                 return
             };
             try {
@@ -117,16 +117,16 @@ const SignTransaction = () => {
                     signature: signature,
                     userAddress: account
                 }
-                Toastify('info', 'Sign Voting!');
+                Toastify('info', {message:'Sign Voting!'});
                 await axios.post(`/sign/voting/${id}`, user);
-                Toastify('info', 'Voting Signed!');
+                Toastify('info', {message:'Voting Signed!'});
             } catch (error) {
                 setShow(false)
-                Toastify('error', error.message);
+                Toastify('error', error);
             }
         }).catch(error => {
             setShow(false)
-            Toastify('error', error.message);
+            Toastify('error', error);
         })
     }
     const activateTransaction = async () => {
@@ -137,9 +137,9 @@ const SignTransaction = () => {
             let sigs = signatures.map(item => hexlify(item.signature));
             let v = ethers.utils.parseEther(value || "0");
             let result = await contract.execute(target, data, v, nonce, createdAt, sigs);
-            Toastify('info', 'Activating Voting');
+            Toastify('info', {message:'Activating Voting'});
             await result.wait();
-            Toastify('info', 'Voting Activated');
+            Toastify('info', {message:'Voting Activated'});
             let body = {
                 txHash,
                 timestamp: dayjs().unix(),
@@ -150,9 +150,9 @@ const SignTransaction = () => {
         } catch (error) {
             setShow(false)
             if (error && error.data) {
-                Toastify('error', error.data.message)
+                Toastify('error', error)
             } else {
-                Toastify('error', error.message);
+                Toastify('error', error);
             }
         }
     }

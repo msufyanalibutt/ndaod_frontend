@@ -6,8 +6,7 @@ import { useEffect } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
 import { HiUserAdd } from "react-icons/hi";
 import { BiTransferAlt } from "react-icons/bi";
-import { GiJoint } from "react-icons/gi";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { WALLETCONTEXT } from "../../contexts/walletContext";
 import { truncateAddress } from "../../utils";
@@ -19,6 +18,7 @@ import { ImCross } from "react-icons/im";
 import { FaRegEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import TradingAccountValue from "./tradingAccountValue";
+import { IoIosPersonAdd } from "react-icons/io";
 const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
   const { account, library } = useWeb3React();
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
       await axois.post("/create/voting", body);
       navigate(`/dao/${daoAddress}/votingPage/${txHash}`);
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
     }
   };
   const createForIface = (to) => {
@@ -158,6 +158,12 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
                 <ClipBoard address={item.mainAddress} />
               </Col>
               <Col className="text-right">
+                <Link
+                  className="btn btn-info btn-sm me-3"
+                  to={`/addSubMembertoTa/${daoAddress}/${address}/${item.mainAddress}`}
+                >
+                  <IoIosPersonAdd />
+                </Link>
                 <Button
                   variant="danger"
                   size="sm"
@@ -171,10 +177,16 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
                 <Col className="">Account</Col>
                 <Col className="text-right">Exchange</Col>
                 <Col className="text-right">Balance</Col>
+                <Col></Col>
               </Row>
               {item.subMembers.map((sItem, index) => (
                 <div className="m-0 p-0" key={index}>
-                  <TradingAccountValue sItem={sItem} />
+                  <TradingAccountValue
+                    sItem={sItem}
+                    _main={item.mainAddress}
+                    daoAddress={daoAddress}
+                    tokenAddress={address}
+                  />
                 </div>
               ))}
             </Row>

@@ -73,7 +73,7 @@ const DisablePrivateOffer = () => {
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -128,7 +128,7 @@ const DisablePrivateOffer = () => {
             setiLoading(false);
             resetForm();
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setiLoading(false)
         }
     }
@@ -183,7 +183,7 @@ const DisablePrivateOffer = () => {
             }
             setPrivateOffers(offers)
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
         }
     }
     return (

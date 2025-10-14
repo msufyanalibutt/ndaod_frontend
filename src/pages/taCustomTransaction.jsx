@@ -68,7 +68,7 @@ const TACustomTransaction = () => {
             setLoading(false);
             navigate(`/connectTa/${targetAddress}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }

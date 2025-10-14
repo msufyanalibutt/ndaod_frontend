@@ -84,7 +84,7 @@ const CreateLp = () => {
             setLoading(false)
             navigate(`/dao/${address}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -138,7 +138,7 @@ const CreateLp = () => {
             await axois.post('/create/voting', body);
             resetForm();
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
         }finally{
             setiLoading(false)
         }

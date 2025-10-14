@@ -90,7 +90,7 @@ const SendMatic = () => {
             setLoading(false)
             navigate(`/dao/${recipientAddress}/votingPage/${txHash}`);
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setLoading(false)
         }
     }
@@ -145,7 +145,7 @@ const SendMatic = () => {
             setiLoading(false);
             resetForm();
         } catch (error) {
-            Toastify('error', error.message);
+            Toastify('error', error);
             setiLoading(false)
         }
     }
