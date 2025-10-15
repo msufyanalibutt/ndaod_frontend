@@ -365,9 +365,6 @@ const DAO = () => {
                               name={name}
                               address={address}
                               assets={assets}
-                              daoBalance={
-                                daoBalance
-                              }
                             />
                           )}
                         </div>

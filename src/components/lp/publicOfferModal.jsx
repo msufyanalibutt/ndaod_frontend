@@ -32,14 +32,12 @@ const PublicModalOffer = ({
   name,
   daoAddress,
   getShopLPContract,
-  daoBalance,
 }) => {
   const [approved, setApproved] = useState(false);
   const [balanceOf, SetbalanceOf] = useState(0);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (account) {
-      console.log(daoBalance);
       getInfo();
     }
   }, [account]);
@@ -80,20 +78,9 @@ const PublicModalOffer = ({
       setLoading(false);
     }
   };
-  const calculateDaoBalanceRate = () => {
-    if (daoBalance >= 100) {
-      return daoBalance / 100 / rate;
-    } else {
-      return 1;
-    }
-  };
   const formSchema = yup.object().shape({
     lpAmount: yup
       .number()
-      .min(
-        calculateDaoBalanceRate(),
-        `${calculateDaoBalanceRate()} Minimum Token To Buy`
-      )
       .required("This is required"),
     targetAmount: yup
       .number()
