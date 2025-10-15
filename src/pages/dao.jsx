@@ -366,7 +366,7 @@ const DAO = () => {
                               address={address}
                               assets={assets}
                               daoBalance={
-                                daoBalance > 0 ? daoBalance / 100 : daoBalance
+                                daoBalance
                               }
                             />
                           )}
