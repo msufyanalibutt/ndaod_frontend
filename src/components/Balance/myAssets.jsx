@@ -7,7 +7,7 @@ import { networks } from "../../utils/networks";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ethers } from "ethers";
 import { exlcude_Address, truncateAddress } from "../../utils";
-import ClipBoard from "../clipboard"; 
+import ClipBoard from "../clipboard";
 const imageErrorSrc = "/images/NoImageCoinLogo.svg";
 const GetImage = ({ url, alttext, newStyle }) => {
   return (
@@ -71,9 +71,29 @@ const MyAssets = ({
           {hyperLiquidBalances.map((asset, index) => (
             <Row key={index}>
               <Col className="mb-3">
-                <div className="d-flex align-items-center gap-2">
-                  <div>HL</div>
-                  <div>{truncateAddress(asset.address)} <ClipBoard address={asset.address} /></div>
+                <div className="d-flex align-items-center">
+                  <div className="me-3" style={{ maxWidth: "50px" }}>
+                    <GetImage
+                      className="img-fluid"
+                      url={"/images/hpl.png"}
+                      altext={"hpl logo"}
+                      newStyle={{ width: "40px" }}
+                    />
+                  </div>
+                  <div>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://app.hyperliquid.xyz/"
+                      className="text-white"
+                    >
+                      Hyperliquid Exchange
+                    </a>
+                  </div>
+                  <div>
+                    {truncateAddress(asset.address)}{" "}
+                    <ClipBoard address={asset.address} />
+                  </div>
                 </div>
               </Col>
               <Col className="mb-3">

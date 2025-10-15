@@ -192,7 +192,7 @@ const AddSubMemberToTA = () => {
     initialValues: {
       title: "",
       description: "",
-      exchangeName: "",
+      exchangeName: "Hyperliquid Exchange",
       tradingAccount: "",
     },
     validationSchema: formSchema,
@@ -243,19 +243,22 @@ const AddSubMemberToTA = () => {
                   <FormLabel as={"p"}>{taAddress}</FormLabel>
                 </FormGroup>
                 <FormGroup className="mb-3">
-                  <FormLabel htmlFor="recipientAddress">
-                    Trader Account Address
+                  <FormLabel as={"p"} htmlFor="recipientAddress">
+                    Trader Account
                   </FormLabel>
                   <FormLabel>{mainAddress}</FormLabel>
                 </FormGroup>
                 <FormGroup className="mb-3">
                   <FormLabel>Exchange Name</FormLabel>
                   <FormControl
+                  as={"select"}
                     name="exchangeName"
                     value={values.exchangeName}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value={"Hyperliquid Exchange"}>Hyperliquid Exchange</option>
+                  </FormControl>
                   <small className="text-danger">
                     {touched.exchangeName && errors.exchangeName}
                   </small>

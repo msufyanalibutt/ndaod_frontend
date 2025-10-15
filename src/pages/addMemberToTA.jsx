@@ -261,7 +261,7 @@ const AddMemberToTA = () => {
   const excahngeTradingForm = useFormik({
     onSubmit: handleFormSubmitForExcahngeTrading,
     initialValues: {
-      exchangeName: "",
+      exchangeName: "Hyperliquid Exchange",
       tradingAccount: "",
     },
     validationSchema: formSchemaExchangeTrading,
@@ -520,11 +520,14 @@ const AddMemberToTA = () => {
                 <FormGroup className="mb-3">
                   <FormLabel>Exchange Name</FormLabel>
                   <FormControl
+                    as={"select"}
                     name="exchangeName"
                     value={excahngeTradingForm.values.exchangeName}
                     onBlur={excahngeTradingForm.handleBlur}
                     onChange={excahngeTradingForm.handleChange}
-                  />
+                  >
+                    <option>Hyperliquid Exchange</option>
+                  </FormControl>
                   <small className="text-danger">
                     {excahngeTradingForm.touched.exchangeName &&
                       excahngeTradingForm.errors.exchangeName}

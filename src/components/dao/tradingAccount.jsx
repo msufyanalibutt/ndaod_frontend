@@ -146,7 +146,7 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
           )}
         </Col>
       </Row>
-      <Modal show={show} onHide={handleClose} centered>
+      <Modal size="lg" show={show} onHide={handleClose} centered>
         <Modal.Body>
           <div className="text-right mb-3">
             <ImCross onClick={handleClose} />
@@ -175,7 +175,7 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
               <hr className="m-0 p-0 my-3" />
               <Row className="p-0 m-0">
                 <Col className="">Account</Col>
-                <Col className="text-right">Exchange</Col>
+                <Col className="text-center">Exchange</Col>
                 <Col className="text-right">Balance</Col>
                 <Col></Col>
               </Row>

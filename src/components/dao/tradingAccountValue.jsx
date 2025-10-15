@@ -70,7 +70,7 @@ const TradingAccountValue = ({ sItem, _main, daoAddress, tokenAddress }) => {
       Toastify("error", error);
     }
   };
-  const createForIface = (main,sub) => {
+  const createForIface = (main, sub) => {
     let ABI = ["function removeSubMember(address _main, address _sub)"];
     let iface = new ethers.utils.Interface(ABI);
     iface = iface.encodeFunctionData("removeSubMember", [_main, sub]);
@@ -80,10 +80,11 @@ const TradingAccountValue = ({ sItem, _main, daoAddress, tokenAddress }) => {
     <>
       <Row className="m-0 p-0">
         <Col className="">
+         
           {truncateAddress(sItem.subAddress)}{" "}
           <ClipBoard address={sItem.subAddress} />
         </Col>
-        <Col className="text-right">{sItem.name}</Col>
+        <Col className="text-center">{sItem.name}</Col>
         <Col className="text-right">${Number(value).toFixed(2)}</Col>
         <Col className="text-right">
           <Button

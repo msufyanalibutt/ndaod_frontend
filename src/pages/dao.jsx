@@ -103,7 +103,7 @@ const DAO = () => {
           (member.subMembers || []).map((sub) => sub.subAddress)
         )
       );
-      if(address.length===0) return;
+      if (address.length === 0) return;
       const result = await api.post("/hplCall/api/batch", { addresses });
       setHyperLiquidBalances(result.data.data);
       setDaoBalance(daoBalance + result.data.total);
@@ -365,6 +365,9 @@ const DAO = () => {
                               name={name}
                               address={address}
                               assets={assets}
+                              daoBalance={
+                                daoBalance > 0 ? daoBalance / 100 : daoBalance
+                              }
                             />
                           )}
                         </div>

@@ -21,7 +21,8 @@ const PublicModalOffer = ({
     ShopLp_contract_address,
     name,
     daoAddress,
-    getShopLPContract
+    getShopLPContract,
+    daoBalance
 }) => {
     const [approved, setApproved] = useState(false);
     const [balanceOf, SetbalanceOf] = useState(0)
@@ -67,7 +68,7 @@ const PublicModalOffer = ({
         }
     }
     const formSchema = yup.object().shape({
-        lpAmount: yup.number().required('This is required'),
+        lpAmount: yup.number().min(Number(daoBalance/rate).toFixed(0),`${Number(daoBalance/rate).toFixed(0)} Minimum Token To Buy`).required('This is required'),
         targetAmount: yup.number()
             .test('maxLenght', `Low balance. Current balance is ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 2, notation: "compact", compactDisplay: "short" }).format(balanceOf)
                 } ${symbol}`, function (value) {

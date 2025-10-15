@@ -231,6 +231,7 @@ const LPToken = (daoConfig) => {
                 daoAddress={daoConfig.address}
                 getShopLPContract={getShopLPContract}
                 active={active}
+                daoBalance={daoConfig.daoBalance}
             />}
             {
                 burnModal && <BurnLPModal
