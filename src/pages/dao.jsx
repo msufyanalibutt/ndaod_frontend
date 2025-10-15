@@ -55,6 +55,7 @@ const DAO = () => {
   const { account, chainId, active, library } = useWeb3React();
   const [owner, setOwner] = useState(false);
   const [hyperLiquidBalances, setHyperLiquidBalances] = useState([]);
+  const [lpTotalSupply, setLpTotalSupply] = useState(0);
   useEffect(() => {
     if (account && active && chainId) {
       getDaoOwners(address);
@@ -70,6 +71,11 @@ const DAO = () => {
   }, [chainId, address]);
 
   useEffect(() => {
+    if (daoConfig && daoConfig.lpAddress) {
+      getTotalMintedLps();
+    }
+  }, [daoConfig.lpAddress]);
+  useEffect(() => {
     if (!Array.isArray(taAccounts) || !taAccounts.length) return;
 
     const timeout = setTimeout(() => {
@@ -78,7 +84,15 @@ const DAO = () => {
 
     return () => clearTimeout(timeout);
   }, [taAccounts]);
-
+  const getTotalMintedLps = async () => {
+    try {
+      const contract = await getLpContract(daoConfig.lpAddress);
+      const totalSupply = await contract.totalSupply();
+      setLpTotalSupply(
+        Number(ethers.utils.formatEther(totalSupply)).toFixed(2)
+      );
+    } catch (error) {}
+  };
   const getBatchHPL = async () => {
     try {
       if (!taAccounts || taAccounts.length === 0) return;
@@ -254,6 +268,10 @@ const DAO = () => {
               <Col xs={12} lg={9} className="mx-auto">
                 <div className="text-white p-3 mb-3 tabborder">
                   <Row>
+                    <Col className="text-center">
+                      <h6>Price</h6>
+                      <h2>${Number(daoBalance / lpTotalSupply).toFixed(4)}</h2>
+                    </Col>
                     <Col className="text-center">
                       <h6>Quorum</h6>
                       <h2>{quarom}%</h2>
