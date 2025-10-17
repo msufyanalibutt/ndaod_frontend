@@ -89,10 +89,12 @@ const Home = () => {
         setDaoLists(items);
     }
     const getMyAssets = async () => {
-        const url = `/${chainId}/address/${account}/balances_v2`;
+        // const url = `/${chainId}/address/${account}/balances_v2`;
+        // const url =`/balances/evm/${account}?network_id=matic`
+        const url = `/wallets/${account}/tokens?chain=matic`
         try {
-            const result = await api.post('/covalent/api',{url});
-            let items = result.data.data.items;
+            const result = await api.post('/moralis/api',{url});
+            let items = result.data.result
             setAssets(items);
         } catch (error) {
         }

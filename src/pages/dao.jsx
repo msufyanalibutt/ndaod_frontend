@@ -163,31 +163,35 @@ const DAO = () => {
     } catch (error) {}
   };
   const getDaoMembers = async (address) => {
-    const url = `/${chainId}/tokens/${address}/token_holders`;
+    const url = `/erc20/${address}/owners?chain=matic`;
     try {
-      const result = await api.post("/covalent/api", { url });
-      let items = result.data.data.items;
+      const result = await api.post("/moralis/api", { url });
+      let items = result.data.result;
       setMembers(items);
     } catch (error) {}
   };
-  const getLpMembers = async (lpMembers) => {
-    const url = `/${chainId}/tokens/${lpMembers}/token_holders`;
+  const getLpMembers = async (lpaddress) => {
+    console.log(lpaddress);
+    if (!lpaddress) {
+      return null;
+    }
+    const url = `/erc20/${lpaddress}/owners?chain=matic`;
     try {
-      const result = await api.post("/covalent/api", { url });
-      let items = result.data.data.items;
+      const result = await api.post("/moralis/api", { url });
+      let items = result.data.result;
       setLpMembers(items);
     } catch (error) {}
   };
   const getDaoAssets = async (address) => {
-    const url = `/${chainId}/address/${address}/balances_v2`;
+    const url = `/wallets/${address}/tokens?chain=matic`;
     try {
-      const result = await api.post("/covalent/api", { url });
-      let items = result.data.data.items;
+      const result = await api.post("/moralis/api", { url });
+      let items = result.data.result;
       setAssets(items);
       let aum = 0;
       items.map((item) => {
         // console.log(item);
-        aum += item.quote;
+        aum += item.usd_price * item.balance_formatted;
         return item;
       });
       setDaoBalance(aum);
@@ -314,7 +318,7 @@ const DAO = () => {
                         />
                       )}
                     </div>
-                    <div className="text-muted p-3 mb-3 tabborder">
+                    <div className="text-white p-3 mb-3 tabborder">
                       {account && (
                         <Transactions
                           chainId={chainId}
@@ -578,7 +582,7 @@ const DAO = () => {
                                     <tr className="border-0" key={index}>
                                       <LpMember
                                         member={member}
-                                        address={member.address}
+                                        address={address}
                                         owner={false}
                                       />
                                     </tr>

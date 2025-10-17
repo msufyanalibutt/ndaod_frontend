@@ -132,7 +132,6 @@ export const privateExit_contract_abi = privateExistAbi;
 export const partialExit_contract_abi = partialExistAbi;
 export const ShopTa_contract_abi = shopTAAbi;
 export const TradingAccount_contract_abi = TradingAccountAbi;
-// export const covalent = 'cqt_rQXQfvRQDWK7C9rwBVpv68XdrR94';
 
 // export const chainIds = [80001];
 export const chainIds = [137, 10];

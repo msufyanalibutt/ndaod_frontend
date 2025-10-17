@@ -161,11 +161,11 @@ const SendToken = () => {
         return iface
     }
     const getDaoAssets = async () => {
-        const url = `/${chainId}/address/${address}/balances_v2`;
+         const url = `/wallets/${address}/tokens?chain=matic`;
         try {
-            const result = await api.post('/covalent/api',{url});
-            let items = result.data.data.items;
-            items = items.filter((item) => item.contract_address !== exlcude_Address[chainId])
+            const result = await api.post('/moralis/api',{url});
+            let items = result.data.result;
+            items = items.filter((item) => item.token_address !== exlcude_Address[chainId])
             setAssets(items);
         } catch (error) {
         }
@@ -273,11 +273,11 @@ const SendToken = () => {
         }
         setFieldValue('tokenAddressValue', index);
         setFieldValue('tokenAddressType', 'hidden');
-        handleChange({ target: { name: 'tokenAddress', value: item.contract_address, id: 'tokenAddress', type: 'hidden' } })
-        setDecimal(item.contract_decimals);
-        setSymbol(item.contract_ticker_symbol);
-        setDaoToken(item.contract_address);
-        setTokenBalance(item.balance / Math.pow(10, item.contract_decimals));
+        handleChange({ target: { name: 'tokenAddress', value: item.token_address, id: 'tokenAddress', type: 'hidden' } })
+        setDecimal(item.decimals);
+        setSymbol(item.symbol);
+        setDaoToken(item.token_address);
+        setTokenBalance(item.balance / Math.pow(10, item.decimals));
         handleClose();
     }
     return (
@@ -303,20 +303,20 @@ const SendToken = () => {
                                                         <Col className='d-flex align-items-center'>
                                                             <div className='me-3'>
                                                                 <img
-                                                                    src={assets[values.tokenAddressValue - 1].logo_url}
-                                                                    alt={assets[values.tokenAddressValue - 1].contract_name}
+                                                                    src={assets[values.tokenAddressValue - 1].logo}
+                                                                    alt={assets[values.tokenAddressValue - 1].name}
                                                                     style={{ width: '30px', height: '30px' }}
                                                                     onError={(e) => { e.target.onerror = null; e.target.src = imageErrorSrc }}
                                                                 />
                                                             </div>
                                                             <div className='text-left'>
-                                                                <p className='m-0 p-0'>{assets[values.tokenAddressValue - 1].contract_name}</p>
-                                                                <p className='m-0 p-0'>{truncateAddress(assets[values.tokenAddressValue - 1].contract_address)}</p>
+                                                                <p className='m-0 p-0'>{assets[values.tokenAddressValue - 1].name}</p>
+                                                                <p className='m-0 p-0'>{truncateAddress(assets[values.tokenAddressValue - 1].token_address)}</p>
                                                             </div>
                                                         </Col>
                                                         <Col className='text-right'>
-                                                            <p className='m-0 p-0'>{Number(assets[values.tokenAddressValue - 1].balance / Math.pow(10, assets[values.tokenAddressValue - 1].contract_decimals)).toFixed(6)}{' '}{assets[values.tokenAddressValue - 1].contract_ticker_symbol}</p>
-                                                            <p className='m-0 p-0'>${Number(assets[values.tokenAddressValue - 1].balance / Math.pow(10, assets[values.tokenAddressValue - 1].contract_decimals)).toFixed(2)}</p>
+                                                            <p className='m-0 p-0'>{Number(assets[values.tokenAddressValue - 1].balance / Math.pow(10, assets[values.tokenAddressValue - 1].decimals)).toFixed(2)}{' '}{assets[values.tokenAddressValue - 1].symbol}</p>
+                                                            <p className='m-0 p-0'>${Number(assets[values.tokenAddressValue - 1].balance / Math.pow(10, assets[values.tokenAddressValue - 1].decimals)).toFixed(2)}</p>
                                                         </Col>
                                                     </Row>
                                         }
@@ -508,20 +508,20 @@ const SendToken = () => {
                                             <Col className='d-flex align-items-center'>
                                                 <div className='me-3'>
                                                     <img
-                                                        src={item.logo_url}
-                                                        alt={item.contract_name}
+                                                        src={item.logo}
+                                                        alt={item.name}
                                                         style={{ width: '30px', height: '30px' }}
                                                         onError={(e) => { e.target.onerror = null; e.target.src = imageErrorSrc }}
                                                     />
                                                 </div>
                                                 <div>
-                                                    <p className='m-0 p-0'>{item.contract_name}</p>
-                                                    <p className='m-0 p-0'>{truncateAddress(item.contract_address)}</p>
+                                                    <p className='m-0 p-0'>{item.name}</p>
+                                                    <p className='m-0 p-0'>{truncateAddress(item.token_address)}</p>
                                                 </div>
                                             </Col>
                                             <Col className='text-right'>
-                                                <p className='m-0 p-0'>{Number(item.balance / Math.pow(10, item.contract_decimals)).toFixed(6)}{' '}{item.contract_ticker_symbol}</p>
-                                                <p className='m-0 p-0'>${Number(item.balance / Math.pow(10, item.contract_decimals)).toFixed(2)}</p>
+                                                <p className='m-0 p-0'>{Number(item.balance / Math.pow(10, item.decimals)).toFixed(6)}{' '}{item.symbol}</p>
+                                                <p className='m-0 p-0'>${Number(item.balance / Math.pow(10, item.decimals)).toFixed(2)}</p>
                                             </Col>
                                         </Row>
                                     </div>

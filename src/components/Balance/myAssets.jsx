@@ -39,7 +39,7 @@ const MyAssets = ({
           <h5>
             Balance: $
             {new Intl.NumberFormat("en-US", {
-              maximumFractionDigits: 1,
+              maximumFractionDigits: 2,
               notation: "compact",
               compactDisplay: "short",
             }).format(daoBalance)}
@@ -80,14 +80,14 @@ const MyAssets = ({
                       newStyle={{ width: "40px" }}
                     />
                   </div>
-                  <div>
+                  <div className="me-1">
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       href="https://app.hyperliquid.xyz/"
                       className="text-white"
                     >
-                      Hyperliquid Exchange
+                      Hyperliquid Exchange{" "}
                     </a>
                   </div>
                   <div>
@@ -119,28 +119,28 @@ const MyAssets = ({
                   <div className="me-3" style={{ maxWidth: "50px" }}>
                     <GetImage
                       className="img-fluid"
-                      url={asset.logo_url}
-                      altext={asset.contract_ticker_symbol}
+                      url={asset.logo}
+                      altext={asset.name}
                       newStyle={{ width: "40px" }}
                     />
                   </div>
                   <div>
                     {asset.type === "dust" ? (
-                      asset.contract_name ? (
-                        asset.contract_name
+                      asset.name ? (
+                        asset.name
                       ) : (
-                        truncateAddress(asset.contract_address)
+                        truncateAddress(asset.token_address)
                       )
                     ) : (
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`${networks[chainId].blockExplorerUrls[0]}/token/${asset.contract_address}`}
+                        href={`${networks[chainId].blockExplorerUrls[0]}/token/${asset.token_address}`}
                         className="text-white"
                       >
-                        {asset.contract_name
-                          ? asset.contract_name
-                          : truncateAddress(asset.contract_address)}
+                        {asset.name
+                          ? asset.name
+                          : truncateAddress(asset.token_address)}
                       </a>
                     )}
                   </div>
@@ -150,13 +150,7 @@ const MyAssets = ({
                 <div className="d-flex align-items-center justify-content-end">
                   <div className="mx-3">
                     <p className="mb-0 p-0 text-right">
-                      {new Intl.NumberFormat("en-US", {
-                        maximumFractionDigits: 6,
-                        notation: "compact",
-                        compactDisplay: "short",
-                      }).format(
-                        asset.balance / Math.pow(10, asset.contract_decimals)
-                      )}
+                      {Number(asset.balance_formatted).toFixed(2)}
                     </p>
                     <p className="mb-0 p-0 text-right">
                       $
@@ -164,7 +158,7 @@ const MyAssets = ({
                         maximumFractionDigits: 2,
                         notation: "compact",
                         compactDisplay: "short",
-                      }).format(asset.quote)}
+                      }).format(asset.usd_price * asset.balance_formatted)}
                     </p>
                   </div>
                   <div>
@@ -180,19 +174,14 @@ const MyAssets = ({
                           <Col>
                             <h6>Exchange</h6>
                           </Col>
-                          {/* <Col className='text-right' >
-                                                        <a href="#" className='text-white'><AiOutlineClose /></a>
-                                                    </Col> */}
                         </Row>
                         <Row>
                           <Col>
                             <div>
                               <div></div>
                               <div>
-                                <p className="m-0 p-0">{asset.contract_name}</p>
-                                <p className="m-0 p-0">
-                                  {asset.contract_ticker_symbol}
-                                </p>
+                                <p className="m-0 p-0">{asset.name}</p>
+                                <p className="m-0 p-0">{asset.symbol}</p>
                               </div>
                             </div>
                           </Col>
@@ -203,7 +192,10 @@ const MyAssets = ({
                                 notation: "compact",
                                 compactDisplay: "short",
                               }).format(
-                                ethers.utils.formatEther(asset.balance)
+                                ethers.utils.formatUnits(
+                                  asset.balance,
+                                  asset.decimals
+                                )
                               )}
                             </p>
                             <p className="m-0 p-0">$0.0</p>

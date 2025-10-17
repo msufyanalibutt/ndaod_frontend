@@ -117,16 +117,16 @@ const PrivateExit = () => {
             let ass = assets.map(item => {
                 return {
                     checked: item.type === 'dust',
-                    logo_url: item.logo_url,
+                    logo_url: item.logo,
                     type: item.type,
                     input: "check",
-                    address: item.contract_address,
-                    contract_name: item.contract_name,
-                    contract_address: item.contract_address,
+                    address: item.token_address,
+                    contract_name: item.name,
+                    contract_address: item.token_address,
                     defaultValue: 0,
                     value: '',
                     balance: item.balance,
-                    decimals: item.contract_decimals || 18
+                    decimals: item.decimals || 18
                 }
             })
             setFieldValue('tokenAddresses', [...ass])
@@ -269,10 +269,10 @@ const PrivateExit = () => {
         }
     }
     const getDaoAssets = async (address) => {
-        const url = `/${chainId}/address/${address}/balances_v2`;
+        const url = `/wallets/${address}/tokens?chain=matic`;
         try {
-            const result = await api.post('/covalent/api',url);
-            let items = result.data.data.items;
+            const result = await api.post('/moralis/api',url);
+            let items = result.data.result;
             setAssets(items);
         } catch (error) {
         }
