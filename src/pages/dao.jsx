@@ -114,9 +114,10 @@ const DAO = () => {
         });
       const addresses = success.flatMap((item) =>
         item.members.flatMap((member) =>
-          (member.subMembers || []).map((sub) => sub.subAddress)
+          (member.subMembers || []).map((sub) => ({name:sub.name,address:sub.subAddress}))
         )
       );
+      console.log(addresses)
       if (address.length === 0) return;
       const result = await api.post("/hplCall/api/batch", { addresses });
       setHyperLiquidBalances(result.data.data);
@@ -171,7 +172,6 @@ const DAO = () => {
     } catch (error) {}
   };
   const getLpMembers = async (lpaddress) => {
-    console.log(lpaddress);
     if (!lpaddress) {
       return null;
     }

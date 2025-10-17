@@ -87,7 +87,7 @@ const MyAssets = ({
                       href="https://app.hyperliquid.xyz/"
                       className="text-white"
                     >
-                      Hyperliquid Exchange{" "}
+                      {asset.name}{" "}
                     </a>
                   </div>
                   <div>
