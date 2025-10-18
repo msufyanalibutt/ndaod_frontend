@@ -47,6 +47,7 @@ const DAO = () => {
   });
   const [assets, setAssets] = useState([]);
   const [daoBalance, setDaoBalance] = useState(0);
+  const [daoBalanceHPL, setDaoBalanceHPL] = useState(0);
   const [quarom, setQuarom] = useState(0);
   const [name, setName] = useState("");
   const [members, setMembers] = useState([]);
@@ -56,6 +57,7 @@ const DAO = () => {
   const [owner, setOwner] = useState(false);
   const [hyperLiquidBalances, setHyperLiquidBalances] = useState([]);
   const [lpTotalSupply, setLpTotalSupply] = useState(0);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (account && active && chainId) {
       getDaoOwners(address);
@@ -78,12 +80,19 @@ const DAO = () => {
   useEffect(() => {
     if (!Array.isArray(taAccounts) || !taAccounts.length) return;
 
+    let called = false;
     const timeout = setTimeout(() => {
-      getBatchHPL();
-    }, 500); // wait 0.5 sec before calling
+      if (!called) {
+        called = true;
+        getBatchHPL();
+      }
+    }, 500);
 
-    return () => clearTimeout(timeout);
-  }, [taAccounts]);
+    return () => {
+      called = true;
+      clearTimeout(timeout);
+    };
+  }, [JSON.stringify(taAccounts)]);
   const getTotalMintedLps = async () => {
     try {
       const contract = await getLpContract(daoConfig.lpAddress);
@@ -114,14 +123,21 @@ const DAO = () => {
         });
       const addresses = success.flatMap((item) =>
         item.members.flatMap((member) =>
-          (member.subMembers || []).map((sub) => ({name:sub.name,address:sub.subAddress}))
+          (member.subMembers || []).map((sub) => ({
+            name: sub.name,
+            address: sub.subAddress,
+          }))
         )
       );
       if (address.length === 0) return;
+      setLoading(true);
       const result = await api.post("/hplCall/api/batch", { addresses });
       setHyperLiquidBalances(result.data.data);
-      setDaoBalance(daoBalance + result.data.total);
-    } catch (error) {}
+      setDaoBalanceHPL(daoBalance + result.data.total);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
   const getDao = async (address) => {
     try {
@@ -237,6 +253,11 @@ const DAO = () => {
           <Container className="mt-3">
             <Row>
               <Col xs={12} lg={9} className="mx-auto">
+                {
+                  loading && <div className="text-center bg-info mb-3">
+                  One Moment, non-local values loading
+                </div>
+                }
                 <Row>
                   <Col className="d-flex align-items-center  text-white">
                     <div
@@ -273,7 +294,7 @@ const DAO = () => {
                   <Row>
                     <Col className="text-center">
                       <h6>Price</h6>
-                      <h2>${Number(daoBalance / lpTotalSupply).toFixed(4)}</h2>
+                      <h2>${Number(daoBalanceHPL / lpTotalSupply).toFixed(4)}</h2>
                     </Col>
                     <Col className="text-center">
                       <h6>Quorum</h6>
@@ -285,7 +306,7 @@ const DAO = () => {
                     </Col>
                     <Col className="text-center">
                       <h6>AUM</h6>
-                      <h2>${Number(daoBalance).toFixed(2)}</h2>
+                      <h2>${Number(daoBalanceHPL).toFixed(2)}</h2>
                     </Col>
                   </Row>
                 </div>
@@ -308,7 +329,7 @@ const DAO = () => {
                       {account && (
                         <MyAssets
                           owner={owner}
-                          daoBalance={daoBalance}
+                          daoBalance={daoBalanceHPL}
                           assets={assets}
                           chainId={chainId}
                           address={address}
