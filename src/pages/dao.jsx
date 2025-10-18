@@ -48,6 +48,7 @@ const DAO = () => {
   const [assets, setAssets] = useState([]);
   const [daoBalance, setDaoBalance] = useState(0);
   const [daoBalanceHPL, setDaoBalanceHPL] = useState(0);
+  const [lpBalance, setLpBalance] = useState(0);
   const [quarom, setQuarom] = useState(0);
   const [name, setName] = useState("");
   const [members, setMembers] = useState([]);
@@ -93,9 +94,12 @@ const DAO = () => {
       clearTimeout(timeout);
     };
   }, [JSON.stringify(taAccounts)]);
+
   const getTotalMintedLps = async () => {
     try {
       const contract = await getLpContract(daoConfig.lpAddress);
+      const mintedTokens = await contract.balanceOf(account);
+      setLpBalance(mintedTokens);
       const totalSupply = await contract.totalSupply();
       setLpTotalSupply(
         Number(ethers.utils.formatEther(totalSupply)).toFixed(2)
@@ -253,11 +257,11 @@ const DAO = () => {
           <Container className="mt-3">
             <Row>
               <Col xs={12} lg={9} className="mx-auto">
-                {
-                  loading && <div className="text-center bg-info mb-3">
-                  One Moment, non-local values loading
-                </div>
-                }
+                {loading && (
+                  <div className="text-center bg-info mb-3">
+                    One Moment, non-local values loading
+                  </div>
+                )}
                 <Row>
                   <Col className="d-flex align-items-center  text-white">
                     <div
@@ -294,11 +298,31 @@ const DAO = () => {
                   <Row>
                     <Col className="text-center">
                       <h6>Price</h6>
-                      <h2>${Number(daoBalanceHPL / lpTotalSupply).toFixed(4)}</h2>
+                      <h2>
+                        ${Number(daoBalanceHPL / lpTotalSupply).toFixed(4)}
+                      </h2>
                     </Col>
-                    <Col className="text-center">
+                    {/* <Col className="text-center">
                       <h6>Quorum</h6>
                       <h2>{quarom}%</h2>
+                    </Col> */}
+                    <Col className="text-center">
+                      <h6>Your LP</h6>
+                      <h2>
+                        {" "}
+                        {new Intl.NumberFormat("en-US", {
+                          maximumFractionDigits: 4,
+                          notation: "compact",
+                          compactDisplay: "short",
+                        }).format(ethers.utils.formatEther(lpBalance))}
+                      </h2>
+                      <p>
+                        $
+                        {Number(
+                          ethers.utils.formatEther(lpBalance) *
+                            (daoBalanceHPL / lpTotalSupply)
+                        ).toFixed(2)}
+                      </p>
                     </Col>
                     <Col className="text-center">
                       <h6>Members</h6>
