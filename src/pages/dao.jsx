@@ -117,7 +117,6 @@ const DAO = () => {
           (member.subMembers || []).map((sub) => ({name:sub.name,address:sub.subAddress}))
         )
       );
-      console.log(addresses)
       if (address.length === 0) return;
       const result = await api.post("/hplCall/api/batch", { addresses });
       setHyperLiquidBalances(result.data.data);

@@ -78,7 +78,7 @@ const TradingAccountValue = ({ sItem, _main, daoAddress, tokenAddress }) => {
   };
   return (
     <>
-      <Row className="m-0 p-0">
+      <Row className="m-0 p-0 mb-2">
         <Col className="">
          
           {truncateAddress(sItem.subAddress)}{" "}
