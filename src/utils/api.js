@@ -14,7 +14,7 @@ const api = Axios.create({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   },
-  timeout: 7000, // optional: timeout after 7 seconds
+  timeout: 30000, // optional: timeout after 30 seconds
 });
 
 // 🧠 Simple in-memory cache
