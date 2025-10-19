@@ -259,7 +259,6 @@ const DAO = () => {
   };
   const getBatchTAAccountsAssets = async (accounts) => {
     try {
-      setLoading(true);
       const results = await Promise.allSettled(
         accounts.map(async (address) => {
           try {
@@ -287,7 +286,6 @@ const DAO = () => {
       setTaBalance(total);
     } catch (error) {
     } finally {
-      setLoading(false);
     }
   };
   return (
