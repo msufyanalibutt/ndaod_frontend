@@ -47,9 +47,11 @@ const DAO = () => {
   });
   const [assets, setAssets] = useState([]);
   const [daoBalance, setDaoBalance] = useState(0);
-  const [daoBalanceHPL, setDaoBalanceHPL] = useState(0);
+  const [hPLBalance, setHPLBalance] = useState(0);
   const [lpBalance, setLpBalance] = useState(0);
-  const [quarom, setQuarom] = useState(0);
+  const [taBalance, setTaBalance] = useState(0);
+  const [totalBalance, setTotalBalance] = useState(0);
+  // const [quarom, setQuarom] = useState(0);
   const [name, setName] = useState("");
   const [members, setMembers] = useState([]);
   const [lpMembers, setLpMembers] = useState([]);
@@ -94,7 +96,9 @@ const DAO = () => {
       clearTimeout(timeout);
     };
   }, [JSON.stringify(taAccounts)]);
-
+  useEffect(() => {
+    setTotalBalance(daoBalance + hPLBalance, taBalance);
+  }, [daoBalance, hPLBalance, taBalance]);
   const getTotalMintedLps = async () => {
     try {
       const contract = await getLpContract(daoConfig.lpAddress);
@@ -137,7 +141,7 @@ const DAO = () => {
       setLoading(true);
       const result = await api.post("/hplCall/api/batch", { addresses });
       setHyperLiquidBalances(result.data.data);
-      setDaoBalanceHPL(daoBalance + result.data.total);
+      setHPLBalance(daoBalance + result.data.total);
     } catch (error) {
     } finally {
       setLoading(false);
@@ -148,8 +152,8 @@ const DAO = () => {
       let contract = await dao(address);
       const name = await contract.name();
       setName(name);
-      const quarom = await contract.quorum();
-      setQuarom(String(quarom));
+      // const quarom = await contract.quorum();
+      // setQuarom(String(quarom));
       contract = await getDaoViewerContract();
       const daoconf = await contract.getDaoConfiguration(
         index_contract_address[chainId],
@@ -248,7 +252,43 @@ const DAO = () => {
       const contract = await getShopTaContract();
       const result = await contract.getTAs(address);
       setTaAccounts(result);
+      if (Array.isArray(result)) {
+        getBatchTAAccountsAssets(result);
+      }
     } catch (error) {}
+  };
+  const getBatchTAAccountsAssets = async (accounts) => {
+    try {
+      setLoading(true);
+      const results = await Promise.allSettled(
+        accounts.map(async (address) => {
+          try {
+            const url = `/wallets/${address}/tokens?chain=matic`;
+            const result = await api.post("/moralis/api", { url });
+            let items = result.data.result;
+            let aum = 0;
+            items.map((item) => {
+              // console.log(item);
+              aum += item.usd_price * item.balance_formatted;
+              return item;
+            });
+            return aum;
+          } catch (err) {
+            return { account, error: err.message };
+          }
+        })
+      );
+      const success = results
+        .filter((r) => r.status === "fulfilled" && !r.value.error)
+        .map((r) => {
+          return r.value;
+        });
+      const total = success.map(Number).reduce((a, b) => a + b, 0);
+      setTaBalance(total);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -299,13 +339,9 @@ const DAO = () => {
                     <Col className="text-center">
                       <h6>Price</h6>
                       <h2>
-                        ${Number(daoBalanceHPL / lpTotalSupply).toFixed(4)}
+                        ${Number(totalBalance / lpTotalSupply).toFixed(4)}
                       </h2>
                     </Col>
-                    {/* <Col className="text-center">
-                      <h6>Quorum</h6>
-                      <h2>{quarom}%</h2>
-                    </Col> */}
                     <Col className="text-center">
                       <h6>Your LP</h6>
                       <h2>
@@ -320,7 +356,7 @@ const DAO = () => {
                         $
                         {Number(
                           ethers.utils.formatEther(lpBalance) *
-                            (daoBalanceHPL / lpTotalSupply)
+                            (totalBalance / lpTotalSupply)
                         ).toFixed(2)}
                       </p>
                     </Col>
@@ -330,7 +366,7 @@ const DAO = () => {
                     </Col>
                     <Col className="text-center">
                       <h6>AUM</h6>
-                      <h2>${Number(daoBalanceHPL).toFixed(2)}</h2>
+                      <h2>${Number(totalBalance).toFixed(2)}</h2>
                     </Col>
                   </Row>
                 </div>
@@ -353,7 +389,7 @@ const DAO = () => {
                       {account && (
                         <MyAssets
                           owner={owner}
-                          daoBalance={daoBalanceHPL}
+                          daoBalance={totalBalance}
                           assets={assets}
                           chainId={chainId}
                           address={address}
