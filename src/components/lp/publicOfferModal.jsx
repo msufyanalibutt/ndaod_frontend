@@ -140,7 +140,7 @@ const PublicModalOffer = ({
       setLoading(false);
       getInfo();
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
       setLoading(false);
     }
   };

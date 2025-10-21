@@ -54,7 +54,7 @@ const TradingAccount = ({ address, chainId, daoAddress, owner }) => {
         params: [txHash, account],
       });
       if (!owner) {
-        Toastify("error", "Request failed with status code 400");
+        Toastify("error", {message:"Request failed with status code 400"});
         return;
       }
       let body = {

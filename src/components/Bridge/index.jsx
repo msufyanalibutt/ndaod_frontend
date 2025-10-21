@@ -185,7 +185,7 @@ const Index = ({ senderAddress, searchParams }) => {
       await result.wait();
       resetFields();
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
       setLoading(false);
     }
   };
@@ -287,7 +287,7 @@ const Index = ({ senderAddress, searchParams }) => {
       setLoading(false);
       getInfo();
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
       setLoading(false);
     }
   };

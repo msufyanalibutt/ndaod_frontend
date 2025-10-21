@@ -59,7 +59,7 @@ const CreatePartialOffer = () => {
                 params: [txHash, account]
             })
             if (!owner) {
-                Toastify('error', 'Request failed with status code 400');
+                Toastify('error',{message: 'Request failed with status code 400'});
                 return;
             }
             let body = {
@@ -199,12 +199,12 @@ const CreatePartialOffer = () => {
                 setSymbol(symbol);
                 setBalanceOfCurrency(String(balanceOf) / Math.pow(10, decimals));
             } else {
-                Toastify('error', 'There is no token on this address');
+                Toastify('error', {message:'There is no token on this address'});
                 setErrors({ tokenAddress: 'There is no token on this address' })
                 setSymbol(null);
             }
         } catch (error) {
-            Toastify('error', 'There is no token on this address');
+            Toastify('error', {message:'There is no token on this address'});
             setErrors({ tokenAddress: 'There is no token on this address' });
             setSymbol(null);
         }

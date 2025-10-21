@@ -61,10 +61,10 @@ const TACustomTransaction = () => {
             //     creator: account
             // } 
             // await axois.post('/create/voting', body);
-            Toastify('info', 'Execution Started');
+            Toastify('info', {message:'Execution Started'});
             const result = await contract.executePermitted(targetAddress, data, v)
             await result.wait();
-            Toastify('success', 'Execution Success');
+            Toastify('success', {message:'Execution Success'});
             setLoading(false);
             navigate(`/connectTa/${targetAddress}`);
         } catch (error) {

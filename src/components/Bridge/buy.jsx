@@ -122,7 +122,7 @@ const BuyBridge = ({
   const HandleBuyBalance = () => {
     Toastify(
       "info",
-      "This field cannot be changed. Change only the amount of the sale"
+      {message:"This field cannot be changed. Change only the amount of the sale"}
     );
   };
   const searchBuyTokens = (value) => {

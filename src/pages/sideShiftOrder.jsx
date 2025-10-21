@@ -97,7 +97,7 @@ const SideShiftOrder = () => {
           const result = await contract.transfer(order.depositAddress, value);
           await result.wait();
         }
-        Toastify("success", "Successfully Transfer!");
+        Toastify("success", {message:"Successfully Transfer!"});
         navigate("/sideshift");
       } else {
         if (depositCoin.Address === ethers.constants.AddressZero) {
@@ -180,9 +180,9 @@ const SideShiftOrder = () => {
       setLoading(false);
       console.log(error);
       if (error && error.data) {
-        Toastify("error", error.data.message);
+        Toastify("error", error);
       } else {
-        Toastify("error", error.message);
+        Toastify("error", error);
       }
     }
   };

@@ -239,12 +239,12 @@ const DAO = () => {
         },
       });
       if (wasAdded) {
-        Toastify("success", "Thanks for your interest!");
+        Toastify("success", {message:"Thanks for your interest!"});
       } else {
-        Toastify("error", "Your loss!");
+        Toastify("error", {message:"Your loss!"});
       }
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
     }
   };
   const getTradingAccounts = async () => {

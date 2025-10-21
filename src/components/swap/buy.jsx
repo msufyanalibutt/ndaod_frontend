@@ -80,7 +80,7 @@ const BuySwap = ({
         handleClose();
     }
     const HandleBuyBalance = () => {
-        Toastify('info', 'This field cannot be changed. Change only the amount of the sale');
+        Toastify('info', {message:'This field cannot be changed. Change only the amount of the sale'});
     }
     const searchBuyTokens = (value) => {
         if (value === '') {

@@ -160,10 +160,10 @@ const Index = ({ senderAddress, searchParams }) => {
         value: value,
       });
       await result.wait();
-      Toastify("success", "Successfully Swap!");
+      Toastify("success", {message:"Successfully Swap!"});
       resetFields();
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
     } finally {
       setLoading(false);
     }
@@ -236,7 +236,7 @@ const Index = ({ senderAddress, searchParams }) => {
       setLoading(false);
       getInfo();
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
       setLoading(false);
     }
   };

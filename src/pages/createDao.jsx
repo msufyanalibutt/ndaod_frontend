@@ -41,9 +41,9 @@ const CreateDao = () => {
 
             let contract = await createYourDao();
             let result = await contract.create(values.daoName, values.daoSymbol, values.quarom, part, share);
-            Toastify('info', 'Creating Dao!')
+            Toastify('info', {message:'Creating Dao!'})
             await result.wait();
-            Toastify('success', 'Dao Created!')
+            Toastify('success', {message:'Dao Created!'})
             result = await daoList(account);
             result = result[result.length - 1];
             setLoading(false);

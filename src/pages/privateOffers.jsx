@@ -88,7 +88,7 @@ const PrivateOffers = () => {
             handleClose();
             setLoading(false);
         } catch (error) {
-            Toastify('error', error.message)
+            Toastify('error', error)
             setLoading(false);
         }
     }
@@ -103,7 +103,7 @@ const PrivateOffers = () => {
             setLoading(false);
             getInfo(item.currency);
         } catch (error) {
-            Toastify('error', error.message)
+            Toastify('error', error)
             setLoading(false);
         }
     }

@@ -5,7 +5,7 @@ import Toastify from "./toast";
 const ClipBoard = ({ address }) => {
     const handleCopy=(e)=>{
         navigator.clipboard.writeText(address);
-        Toastify('info',`Copied ${truncateAddress(address)} to clipboard`);
+        Toastify('info',{message:`Copied ${truncateAddress(address)} to clipboard`});
     }
     return (
         <>

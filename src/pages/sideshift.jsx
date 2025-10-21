@@ -151,16 +151,13 @@ const SideShift = () => {
     } catch (error) {
       if (error.response) {
         // server responded with an error
-        Toastify(
-          "error",
-          error.response.data.error?.message || "Something went wrong"
-        );
+        Toastify("error", error);
       } else if (error.request) {
         // no response from server
-        Toastify("error", "No response from server");
+        Toastify("error", { message: "No response from server" });
       } else {
         // something went wrong in request setup
-        Toastify("error", error.message);
+        Toastify("error", error);
       }
     } finally {
       setLoading(false);

@@ -94,7 +94,7 @@ const ConnectTA = () => {
             })
             setLoading(false)
         } catch (error) {
-            Toastify('error', error.message)
+            Toastify('error', error)
         }
     }
     const onURIPastSession = async (connect)=>{

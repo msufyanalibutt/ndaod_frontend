@@ -284,7 +284,6 @@ const PrivateExit = () => {
         setFieldValue('tokenAddresses', [...tokenAddresses]);
         if (!ethers.utils.isAddress(contractaddress)) return;
         try {
-            // Toastify('info', 'Checking balance this address:start');
             let contract = await getCustomContract(contractaddress);
             let symbol = await contract.symbol();
             let balanceof = await contract.balanceOf(address);
@@ -307,12 +306,11 @@ const PrivateExit = () => {
                 tokenAddresses = values.tokenAddresses;
                 tokenAddresses[index] = item;
                 setFieldValue('tokenAddresses', [...tokenAddresses]);
-                // Toastify('success', 'Checking balance this address:success');
             } else {
-                Toastify('error', 'There is no token on this address');
+                Toastify('error', {message:'There is no token on this address'});
             }
         } catch (error) {
-            Toastify('error', 'There is no token on this address');
+            Toastify('error', {message:'There is no token on this address'});
         }
 
     }
@@ -350,7 +348,7 @@ const PrivateExit = () => {
             setLoading(false);
             getInfo();
         } catch (error) {
-            Toastify('error', error.message)
+            Toastify('error', error)
             setLoading(false);
         }
     }

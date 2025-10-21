@@ -49,7 +49,7 @@ const FreezeGtMinting = () => {
                 params: [txHash, account]
             })
             if (!owner) {
-                Toastify('error', 'Request failed with status code 400');
+                Toastify('error',{message: 'Request failed with status code 400'});
                 return;
             }
             let body = {
@@ -73,7 +73,7 @@ const FreezeGtMinting = () => {
             navigate(`/dao/${address}/votingPage/${txHash}`);
 
         } catch (error) {
-            Toastify('error', error.message)
+            Toastify('error', error)
             setLoading(false)
         }
     }
@@ -97,17 +97,17 @@ const FreezeGtMinting = () => {
                 params: [txHash, account]
             })
             if (!owner) {
-                Toastify('error', 'Request failed with status code 400');
+                Toastify('error',{message: 'Request failed with status code 400'});
                 return;
             }
             if (!permitted) {
-                Toastify('error', 'Request failed with status code 400');
+                Toastify('error',{message: 'Request failed with status code 400'});
                 return;
             }
             const result = await contract.executePermitted(address, iface, 0);
-            Toastify('info', 'Instant Execution Started');
+            Toastify('info', {message:'Instant Execution Started'});
             await result.wait();
-            Toastify('success', 'Instant Execution Success');
+            Toastify('success', {message:'Instant Execution Success'});
             let body = {
                 signature,
                 data: iface,

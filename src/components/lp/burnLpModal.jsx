@@ -124,7 +124,7 @@ const BurnLPModal = ({
             setLoading(false);
             getInfo();
         } catch (error) {
-            Toastify('error', error.message)
+            Toastify('error', error)
             setLoading(false);
         }
     }
@@ -169,7 +169,7 @@ const BurnLPModal = ({
         setFieldValue('tokenAddresses', [...tokenAddresses]);
         if (!ethers.utils.isAddress(contractaddress)) return;
         try {
-            Toastify('info', 'Checking balance this address:start');
+            Toastify('info', {message:'Checking balance this address:start'});
             let contract = await getCustomContract(contractaddress);
             // let name = await contract.name();
             let symbol = await contract.symbol();
@@ -189,12 +189,12 @@ const BurnLPModal = ({
                 tokenAddresses = values.tokenAddresses;
                 tokenAddresses[index] = item;
                 setFieldValue('tokenAddresses', [...tokenAddresses]);
-                Toastify('success', 'Checking balance this address:success');
+                Toastify('success', {message:'Checking balance this address:success'});
             } else {
-                Toastify('error', 'There is no token on this address');
+                Toastify('error', {message:'There is no token on this address'});
             }
         } catch (error) {
-            Toastify('error', 'There is no token on this address');
+            Toastify('error', {message:'There is no token on this address'});
         }
 
     }

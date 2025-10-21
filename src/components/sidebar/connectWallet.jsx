@@ -28,11 +28,11 @@ const ConnectWallet = (props) => {
     }
     const handleMetaMask = async () => {
         if (!ethereum) {
-            Toastify('error', 'Please Install Metamask wallet');
+            Toastify('error', {message:'Please Install Metamask wallet'});
             return;
         }
         if (ethereum.networkVersion && chainIds.indexOf(Number(ethereum.networkVersion)) === -1) {
-            Toastify('error', `Unsupported Chain Id, Supported Chain Ids are ${String(chainIds)}`)
+            Toastify('error',{message: `Unsupported Chain Id, Supported Chain Ids are ${String(chainIds)}`})
         }
         await activate(connectors.injected);
         setProvider("injected");

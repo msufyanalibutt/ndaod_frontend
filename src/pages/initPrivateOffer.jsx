@@ -57,7 +57,7 @@ const InitPrivateOffer = () => {
                 params: [txHash, account]
             })
             if (!owner) {
-                Toastify('error', 'Request failed with status code 400');
+                Toastify('error',{message: 'Request failed with status code 400'});
                 return;
             }
             let body = {
@@ -104,17 +104,17 @@ const InitPrivateOffer = () => {
                 params: [txHash, account]
             })
             if (!owner) {
-                Toastify('error', 'Request failed with status code 400');
+                Toastify('error',{message: 'Request failed with status code 400'});
                 return;
             }
             if (!permitted) {
-                Toastify('error', 'Request failed with status code 400');
+                Toastify('error',{message: 'Request failed with status code 400'});
                 return;
             }
             const result = await contract.executePermitted(ShopLp_contract_address[chainId], iface, 0);
-            Toastify('info', 'Instant Execution Started');
+            Toastify('info', {message:'Instant Execution Started'});
             await result.wait();
-            Toastify('success', 'Instant Execution Success');
+            Toastify('success', {message:'Instant Execution Success'});
             let body = {
                 signature,
                 data: iface,
@@ -187,12 +187,12 @@ const InitPrivateOffer = () => {
                 setDecimals(decimals);
                 setSymbol(symbol);
             } else {
-                Toastify('error', 'There is no token on this address');
+                Toastify('error', {message:'There is no token on this address'});
                 setErrors({ tokenAddress: 'There is no token on this address' })
                 setSymbol(null);
             }
         } catch (error) {
-            Toastify('error', 'There is no token on this address');
+            Toastify('error', {message:'There is no token on this address'});
             setErrors({ tokenAddress: 'There is no token on this address' });
             setSymbol(null);
         }

@@ -28,7 +28,7 @@ const TradingAccountValue = ({ sItem, _main, daoAddress, tokenAddress }) => {
     setValue(accountValue);
     try {
     } catch (error) {
-      Toastify("error", error.message);
+      Toastify("error", error);
     }
   };
   const handleFormSubmit = async (_sub) => {
